@@ -12,7 +12,7 @@ Join teh Discord - https://discord.gg/rootkit
 ## V2 - Coming soon
 We have already finished the V2 bot BUT will be releasing it on the 6th. Patreons subs will get it right now (https://www.patreon.com/rootkit)!
 
-V2 bot runs about 5-8x faster. Additionally V2 will now need detectron so it will run on more computers.
+V2 bot runs about 5-8x faster. Additionally V2 will NOT need detectron so it will run on more computers.
 
 ## Current Stats
 This bot's speed is VERY dependent on your hardware. We will update the model it uses for detection later with a faster one.
