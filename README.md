@@ -1,7 +1,18 @@
-# Base Undetectable Aimbot
-Watch the video! - Coming Soon
+[![Pull Requests Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat)](http://makeapullrequest.com)
+# Ultimate Aimbot
+**Adhere to our GNU licence or else we WILL come after you legally.**<br />
+- free to use, sell, profit from, litterally anything you want to do with it
+- **credit MUST be given to RootKit for the underlying base code**
+
+Watch the tutorial video! - Coming Soon<br />
+Watch the shorts video! - https://youtu.be/EEgspHlU_H0
 
 Join teh Discord - https://discord.gg/rootkit
+
+## V2 - Coming soon
+We have already finished the V2 bot BUT will be releasing it on the 6th. Patreons subs will get it right now (https://www.patreon.com/rootkit)!
+
+V2 bot runs about 5-8x faster. Additionally V2 will now need detectron so it will run on more computers.
 
 ## Current Stats
 This bot's speed is VERY dependent on your hardware. We will update the model it uses for detection later with a faster one.
@@ -30,7 +41,7 @@ ANYTHING dealing with Machine Learning can be funky with your computer. So if yo
 
 4. To install `PyTorch` go to this website, https://pytorch.org/get-started/locally/, and Select the stable build, your OS, Pip, Python and CUDA 11.3. Then select the text that is generated and run that command.
 
-5. To install `detectron2` go to this website, https://detectron2.readthedocs.io/en/latest/tutorials/install.html and follow the instructions. They don't officially support Windows but it will work on Windows.
+5. To install `detectron2` go to this website, https://detectron2.readthedocs.io/en/latest/tutorials/install.html and follow the instructions. **They don't officially support Windows but it will work on Windows**. You will either need to install it on the WSL or you will need the underlying compiler.
 
 6. Copy and past the commands below into your terminal. This will install the Open Source packages needed to run the program.
 ```
@@ -41,7 +52,6 @@ pip install opencv-python
 pip install mss
 pip install numpy
 ```
-***IF YOU GET THE FOLLOWING ERROR `pip is not recognized as an internal or external command, operable program, or batch file` Ask someone in the discord to help you out. We will be releasing a video about this soon since all the videos available for it are garbage.***
 
 ### Run
 If you have python and the packages you are good to go. Load up any game on your MAIN monitor and load into a game.
@@ -55,6 +65,9 @@ If you have python and the packages you are good to go. Load up any game on your
 4. Press the enter key
 
 5. Type `python main.py`, press enter and that is it!
+
+## Community Based
+We are a community based nonprofit. We are always open to pull requests on any of our repos. You will always be given credit for all of you work. Depending on what you contribute, we will give you any revenue earned on your contributions 💰💰💰!
 
 **We are always looking for new Volunteers to join our Champions!
 If you have any ideas for videos or programs, let us know!**
