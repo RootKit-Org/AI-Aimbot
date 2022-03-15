@@ -1,6 +1,6 @@
 [![Pull Requests Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat)](http://makeapullrequest.com)
 # Ultimate Aimbot
-**Adhere to our GNU licence or else we WILL come after you legally.**<br />
+**Adhere to our GNU licence!!!**<br />
 - free to use, sell, profit from, litterally anything you want to do with it
 - **credit MUST be given to RootKit for the underlying base code**
 
