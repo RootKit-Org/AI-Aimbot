@@ -61,7 +61,7 @@ If you have python and the packages you are good to go. Load up any game on your
 
 4. Press the enter key
 
-5. Type `python main.py`, press enter and that is it!
+5. Type `python main.py`, press enter and that is it! **IF YOU PRESS Q IT WILL STOP THE PROGRAM**
 
 ## Community Based
 We are a community based nonprofit. We are always open to pull requests on any of our repos. You will always be given credit for all of you work. Depending on what you contribute, we will give you any revenue earned on your contributions 💰💰💰!
