@@ -1,24 +1,20 @@
+import torch
+
 import pyautogui
 import gc
-import pydirectinput
 
 import numpy as np
 import os, json, cv2, random
 from PIL import Image
 import time
 import mss
-
-from detectron2 import model_zoo
-from detectron2.engine import DefaultPredictor
-from detectron2.config import get_cfg
-from detectron2.utils.visualizer import Visualizer
-from detectron2.data import MetadataCatalog, DatasetCatalog
+import win32api, win32con
 
 def main():
     # Window title to go after and the height of the screenshots
-    videoGameWindowTitle = "Counter-Strike"
-    videoGameWindowTitle = "Valorant"
-    screenShotHeight = 250
+    videoGameWindowTitle = "Counter"
+
+    screenShotHeight = 500
 
     # How big the Autoaim box should be around the center of the screen
     aaDetectionBox = 300
@@ -29,22 +25,28 @@ def main():
     # 0 will point center mass, 40 will point around the head in CSGO
     aaAimExtraVertical = 40
 
-    # Loading up the object detection model
-    cfg = get_cfg()
-    cfg.merge_from_file(model_zoo.get_config_file("COCO-InstanceSegmentation/mask_rcnn_R_50_FPN_1x.yaml"))
-    cfg.MODEL.ROI_HEADS.SCORE_THRESH_TEST = 0.5  # set threshold for this model
-    cfg.MODEL.WEIGHTS = model_zoo.get_checkpoint_url("COCO-InstanceSegmentation/mask_rcnn_R_50_FPN_1x.yaml")
-    predictor = DefaultPredictor(cfg)
+    # Set to True if you want to get the visuals
+    visuals = False
 
     # Selecting the correct game window
-    videoGameWindows = pyautogui.getWindowsWithTitle(videoGameWindowTitle)
-    videoGameWindow = videoGameWindows[0]
+    try:
+        videoGameWindows = pyautogui.getWindowsWithTitle(videoGameWindowTitle)
+        videoGameWindow = videoGameWindows[0]
+    except:
+        print("The game window you are trying to select doesn't exist.")
+        print("Check variable videoGameWindowTitle (typically on line 15")
+        exit()
 
     # Select that Window
     videoGameWindow.activate()
 
     # Setting up the screen shots
     sctArea = {"mon": 1, "top": videoGameWindow.top + round((videoGameWindow.height - screenShotHeight) / 2), "left": videoGameWindow.left, "width": videoGameWindow.width, "height": screenShotHeight}
+
+    #! Uncomment if you want to view the entire screen
+    # sctArea = {"mon": 1, "top": 0, "left": 0, "width": 1920, "height": 1080}
+
+    # Starting screenshoting engine
     sct = mss.mss()
 
     # Calculating the center Autoaim box
@@ -55,48 +57,73 @@ def main():
     count = 0
     sTime = time.time()
 
-    # Main loop
-    while True:
+    # Loading Yolo5 Small AI Model
+    model = torch.hub.load('ultralytics/yolov5', 'yolov5s', pretrained=True)
+    
+    # Used for colors drawn on bounding boxes
+    COLORS = np.random.uniform(0, 255, size=(1500, 3))
+
+    # Main loop Quit if Q is pressed
+    while win32api.GetAsyncKeyState(ord('Q')) == 0:
         # Getting screenshop, making into np.array and dropping alpha dimention.
         npImg = np.delete(np.array(sct.grab(sctArea)), 3, axis=2)
 
         # Detecting all the objects
-        predictions = predictor(npImg)
+        results = model(npImg).pandas().xyxy[0]
 
-        # Removing anything that isn't a human and getting the center of those object boxes
-        predCenters = predictions['instances'][predictions['instances'].pred_classes== 0].pred_boxes.get_centers()
+        # Filtering out everything that isn't a person
+        filteredResults = results[results['class']==0]
 
         # Returns an array of trues/falses depending if it is in the center Autoaim box or not
-        cResults = ((predCenters[::,0] > cWidth - aaDetectionBox) & (predCenters[::,0] < cWidth + aaDetectionBox)) & \
-                    ((predCenters[::,1] > cHeight - aaDetectionBox) & (predCenters[::,1] < cHeight + aaDetectionBox))
+        cResults = ((filteredResults["xmin"] > cWidth - aaDetectionBox) & (filteredResults["xmax"] < cWidth + aaDetectionBox)) & \
+                    ((filteredResults["ymin"] > cHeight - aaDetectionBox) & (filteredResults["ymax"] < cHeight + aaDetectionBox))
 
-        # Moves variable from the GPU to CPU
-        predCenters = predCenters.to("cpu")
+        # Removes persons that aren't in the center bounding box
+        targets = filteredResults[cResults]
 
-        # Removes all predictions that aren't closest to the center
-        targets = np.array(predCenters[cResults])
-
-        # If there are targets in the center box
+        # If there are people in the center bounding box
         if len(targets) > 0:
-            # Get the first target
-            mouseMove = targets[0] - [cWidth, cHeight + aaAimExtraVertical]
+            # All logic is just done on the random person that shows up first in the list
+            xMid = round((targets.iloc[0].xmax + targets.iloc[0].xmin) / 2)
+            yMid = round((targets.iloc[0].ymax + targets.iloc[0].ymin) / 2)
 
-            # Move the mouse
-            pydirectinput.move(round(mouseMove[0] * aaMovementAmp), round(mouseMove[1] * aaMovementAmp), relative=True)
+            mouseMove = [xMid - cWidth, yMid - (cHeight + aaAimExtraVertical)]
+
+            # Moving the mouse
+            win32api.mouse_event(win32con.MOUSEEVENTF_MOVE, round(mouseMove[0] * aaMovementAmp), round(mouseMove[1] * aaMovementAmp), 0, 0) 
+        
+        # See what the bot sees
+        if visuals:
+            # Loops over every item identified and draws a bounding box
+            for i in range(0, len(results)):
+                (startX, startY, endX, endY) = int(results["xmin"][i]), int(results["ymin"][i]), int(results["xmax"][i]), int(results["ymax"][i])
+
+                confidence = results["confidence"][i]
+
+                idx = int(results["class"][i])
+
+                # draw the bounding box and label on the frame
+                label = "{}: {:.2f}%".format(results["name"][i], confidence * 100)
+                cv2.rectangle(npImg, (startX, startY), (endX, endY),
+                    COLORS[idx], 2)
+                y = startY - 15 if startY - 15 > 15 else startY + 15
+                cv2.putText(npImg, label, (startX, y),
+                    cv2.FONT_HERSHEY_SIMPLEX, 0.5, COLORS[idx], 2)
 
         # Forced garbage cleanup every second
         count += 1
         if (time.time() - sTime) > 1:
+            print(count)
             count = 0
             sTime = time.time()
+
             gc.collect(generation=0)
 
-        #! Uncomment to see visually what the Aimbot sees
-        # v = Visualizer(npImg[:, :, ::-1], MetadataCatalog.get(cfg.DATASETS.TRAIN[0]), scale=1.2)
-        # out = v.draw_instance_predictions(predictions["instances"].to("cpu"))
-        # cv2.imshow('sample image',out.get_image()[:, :, ::-1])
-        # if (cv2.waitKey(1) & 0xFF) == ord('q'):
-        #     exit()
+        # See visually what the Aimbot sees
+        if visuals:
+            cv2.imshow('Live Feed', npImg)
+            if (cv2.waitKey(1) & 0xFF) == ord('q'):
+                exit()
 
 if __name__ == "__main__":
     main()

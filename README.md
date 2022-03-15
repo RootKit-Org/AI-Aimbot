@@ -9,11 +9,6 @@ Watch the shorts video! - https://youtu.be/EEgspHlU_H0
 
 Join teh Discord - https://discord.gg/rootkit
 
-## V2 - Coming soon
-We have already finished the V2 bot BUT will be releasing it on the 6th. Patreons subs will get it right now (https://www.patreon.com/rootkit)!
-
-V2 bot runs about 5-8x faster. Additionally V2 will NOT need detectron so it will run on more computers.
-
 ## Current Stats
 This bot's speed is VERY dependent on your hardware. We will update the model it uses for detection later with a faster one.
 
@@ -22,14 +17,12 @@ Bot was tested on a:
 - 64 GB DDR4
 - Nvidia RTX 2080
 
-We got anywhere from 5-15 corrections per second which is pretty slow. All games were ran at 1280x720 or close to it.
-The main slow down is the model's prediction speed averaging anywhere from .09-.29s.
-The second biggest slow down is the garbage collection. It runs only once per second and takes about .05 seconds to run in generation 0.
+We got anywhere from 15-35 corrections per second. All games were ran at 1280x720 or close to it when testing.
 
 ANYTHING dealing with Machine Learning can be funky with your computer. So if you keep getting CUDA errors, you may want to restart your PC in order to make sure everything resets properly.
 
 ### REQUIREMENTS
-- Nvidia RTX 2080/3070 or higher
+- Nvidia RTX 2050 or higher
 - Nvidia CUDA Toolkit 11.3 (https://developer.nvidia.com/cuda-11.3.0-download-archive)
 
 ### Pre-setup
@@ -41,8 +34,6 @@ ANYTHING dealing with Machine Learning can be funky with your computer. So if yo
 
 4. To install `PyTorch` go to this website, https://pytorch.org/get-started/locally/, and Select the stable build, your OS, Pip, Python and CUDA 11.3. Then select the text that is generated and run that command.
 
-5. To install `detectron2` go to this website, https://detectron2.readthedocs.io/en/latest/tutorials/install.html and follow the instructions. **They don't officially support Windows but it will work on Windows**. You will either need to install it on the WSL or you will need the underlying compiler.
-
 6. Copy and past the commands below into your terminal. This will install the Open Source packages needed to run the program.
 ```
 pip install PyAutoGUI
@@ -51,6 +42,12 @@ pip install Pillow
 pip install opencv-python
 pip install mss
 pip install numpy
+pip install pandas
+pip install win32api
+pip install yaml
+pip install tqdm
+pip install matplotlib
+pip install seaborn
 ```
 
 ### Run
