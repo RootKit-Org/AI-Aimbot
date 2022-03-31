@@ -43,8 +43,8 @@ pip install opencv-python
 pip install mss
 pip install numpy
 pip install pandas
-pip install win32api
-pip install yaml
+pip install pywin32
+pip install pyyaml
 pip install tqdm
 pip install matplotlib
 pip install seaborn
