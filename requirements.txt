@@ -1,0 +1,13 @@
+PyAutoGUI
+PyDirectInput
+Pillow
+opencv-python
+mss
+numpy
+pandas
+pywin32
+pyyaml
+tqdm
+matplotlib
+seaborn
+torch
