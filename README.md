@@ -1,6 +1,6 @@
 [![Pull Requests Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat)](http://makeapullrequest.com)
-# AI Aimbot
-**Adhere to our GNU licence!!!**<br />
+# Ultimate Aimbot
+**Adhere to our GNU licence or else we WILL come after you legally.**<br />
 - free to use, sell, profit from, litterally anything you want to do with it
 - **credit MUST be given to RootKit for the underlying base code**
 
@@ -34,20 +34,9 @@ ANYTHING dealing with Machine Learning can be funky with your computer. So if yo
 
 4. To install `PyTorch` go to this website, https://pytorch.org/get-started/locally/, and Select the stable build, your OS, Pip, Python and CUDA 11.3. Then select the text that is generated and run that command.
 
-6. Copy and past the commands below into your terminal. This will install the Open Source packages needed to run the program.
+6. Copy and past the command below into your terminal. This will install the Open Source packages needed to run the program.
 ```
-pip install PyAutoGUI
-pip install PyDirectInput
-pip install Pillow
-pip install opencv-python
-pip install mss
-pip install numpy
-pip install pandas
-pip install pywin32
-pip install pyyaml
-pip install tqdm
-pip install matplotlib
-pip install seaborn
+pip install -r requirements.txt
 ```
 
 ### Run
@@ -61,7 +50,7 @@ If you have python and the packages you are good to go. Load up any game on your
 
 4. Press the enter key
 
-5. Type `python main.py`, press enter and that is it! **IF YOU PRESS Q IT WILL STOP THE PROGRAM**
+5. Type `python main.py`, press enter and that is it!
 
 ## Community Based
 We are a community based nonprofit. We are always open to pull requests on any of our repos. You will always be given credit for all of you work. Depending on what you contribute, we will give you any revenue earned on your contributions 💰💰💰!
