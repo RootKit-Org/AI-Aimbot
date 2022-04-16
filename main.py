@@ -1,3 +1,4 @@
+from unittest import result
 import torch
 import pyautogui
 import gc
@@ -82,6 +83,7 @@ def main():
     # Main loop Quit if Q is pressed
     last_mid_coord = None
     aimbot=False
+
     while win32api.GetAsyncKeyState(ord(aaQuitKey)) == 0:
         # Getting screenshop, making into np.array and dropping alpha dimention.
         npImg = np.delete(np.array(sct.grab(sctArea)), 3, axis=2)
