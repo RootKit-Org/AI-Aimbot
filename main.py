@@ -22,12 +22,17 @@ def main():
     # How big the Autoaim box should be around the center of the screen
     aaDetectionBox = 320
 
-    # Autoaim speed
+    # For use in games that are 3rd person and character model interferes with the autoaim
+    # EXAMPLE: Fornite and New World
+    aaRightShift = 0
+
+    # Autoaim mouse movement amplifier
     aaMovementAmp = 1.1
 
     # Person Class Confidence
     confidence = 0.5
 
+    # If you want to main slightly upwards towards the head
     headshot_mode = True
 
     # Set to True if you want to get the visuals
@@ -47,7 +52,7 @@ def main():
 
     # Setting up the screen shots
     sctArea = {"mon": 1, "top": videoGameWindow.top + (videoGameWindow.height - screenShotHeight) // 2,
-                         "left": ((videoGameWindow.left + videoGameWindow.right) // 2) - (screenShotWidth // 2),
+                         "left": aaRightShift + ((videoGameWindow.left + videoGameWindow.right) // 2) - (screenShotWidth // 2),
                          "width": screenShotWidth,
                          "height": screenShotHeight}
 
@@ -105,7 +110,7 @@ def main():
                 targets.sort_values(by="dist", ascending=False)
 
             # Take the first person that shows up in the dataframe (Recall that we sort based on Euclidean distance)
-            xMid = round((targets.iloc[0].xmax + targets.iloc[0].xmin) / 2)
+            xMid = round((targets.iloc[0].xmax + targets.iloc[0].xmin) / 2) + aaRightShift
             yMid = round((targets.iloc[0].ymax + targets.iloc[0].ymin) / 2)
 
             box_height = targets.iloc[0].ymax - targets.iloc[0].ymin
