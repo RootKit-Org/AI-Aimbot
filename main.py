@@ -1,12 +1,8 @@
-from unittest import result
 import torch
-
 import pyautogui
 import gc
-
 import numpy as np
-import os, json, cv2, random
-from PIL import Image
+import cv2
 import time
 import mss
 import win32api, win32con
@@ -31,6 +27,9 @@ def main():
 
     # Person Class Confidence
     confidence = 0.5
+
+    # What key to press to quit and shutdown the autoaim
+    aaQuitKey = "Q"
 
     # If you want to main slightly upwards towards the head
     headshot_mode = True
@@ -83,7 +82,7 @@ def main():
     # Main loop Quit if Q is pressed
     last_mid_coord = None
     aimbot=False
-    while win32api.GetAsyncKeyState(ord('Q')) == 0:
+    while win32api.GetAsyncKeyState(ord(aaQuitKey)) == 0:
         # Getting screenshop, making into np.array and dropping alpha dimention.
         npImg = np.delete(np.array(sct.grab(sctArea)), 3, axis=2)
 
