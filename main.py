@@ -19,7 +19,7 @@ def main():
     aaDetectionBox = 320
 
     # For use in games that are 3rd person and character model interferes with the autoaim
-    # EXAMPLE: Fornite and New World
+    # EXAMPLE: Fortnite and New World
     aaRightShift = 0
 
     # Autoaim mouse movement amplifier
