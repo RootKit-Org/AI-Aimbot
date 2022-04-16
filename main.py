@@ -35,6 +35,9 @@ def main():
     # If you want to main slightly upwards towards the head
     headshot_mode = True
 
+    # Displays the Corrections per second in the terminal
+    cpsDisplay = True
+
     # Set to True if you want to get the visuals
     visuals = False
 
@@ -150,7 +153,8 @@ def main():
         # Forced garbage cleanup every second
         count += 1
         if (time.time() - sTime) > 1:
-            print(count)
+            if cpsDisplay:
+                print("CPS: {}".format(count))
             count = 0
             sTime = time.time()
 

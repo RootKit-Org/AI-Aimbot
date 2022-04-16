@@ -1,5 +1,5 @@
 [![Pull Requests Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat)](http://makeapullrequest.com)
-# Ultimate Aimbot
+# AI Aimbot
 
 <p float="left">
     <img src="imgs/halo.PNG" width="200" />
@@ -15,6 +15,8 @@ Watch the tutorial video! - Coming Soon<br />
 Watch the shorts video! - https://youtu.be/EEgspHlU_H0
 
 Join teh Discord - https://discord.gg/rootkit
+
+
 
 ## Current Stats
 This bot's speed is VERY dependent on your hardware. We will update the model it uses for detection later with a faster one.
