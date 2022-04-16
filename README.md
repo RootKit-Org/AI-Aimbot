@@ -1,6 +1,13 @@
 [![Pull Requests Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat)](http://makeapullrequest.com)
 # Ultimate Aimbot
-**Adhere to our GNU licence or else we WILL come after you legally.**<br />
+
+<p float="left">
+    <img src="imgs/halo.PNG" width="200" />
+    <img src="imgs/valorant.PNG" width="200" /> 
+    <img src="imgs/csgo.PNG" width="200" />
+</p>
+
+**Adhere to our GNU licence, come on we are a nonprofit.**<br />
 - free to use, sell, profit from, litterally anything you want to do with it
 - **credit MUST be given to RootKit for the underlying base code**
 
@@ -17,7 +24,7 @@ Bot was tested on a:
 - 64 GB DDR4
 - Nvidia RTX 2080
 
-We got anywhere from 15-35 corrections per second. All games were ran at 1280x720 or close to it when testing.
+We got anywhere from 20-45 corrections per second. All games were ran at 1920x1080 or close to it when testing.
 
 ANYTHING dealing with Machine Learning can be funky with your computer. So if you keep getting CUDA errors, you may want to restart your PC in order to make sure everything resets properly.
 
@@ -34,7 +41,7 @@ ANYTHING dealing with Machine Learning can be funky with your computer. So if yo
 
 4. To install `PyTorch` go to this website, https://pytorch.org/get-started/locally/, and Select the stable build, your OS, Pip, Python and CUDA 11.3. Then select the text that is generated and run that command.
 
-6. Copy and past the command below into your terminal. This will install the Open Source packages needed to run the program.
+6. Copy and past the command below into your terminal. This will install the Open Source packages needed to run the program. You will need to `cd` into the downloaded directory first. Follow step 2 in the Run section below if you need help.
 ```
 pip install -r requirements.txt
 ```
