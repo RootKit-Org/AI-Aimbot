@@ -60,8 +60,6 @@ Join teh Discord - https://discord.gg/rootkit
 
 `aaDetectionBox` - Default should be kept unless you know what you are doing.
 
-
-
 ## Current Stats
 This bot's speed is VERY dependent on your hardware. We will update the model it uses for detection later with a faster one.
 
