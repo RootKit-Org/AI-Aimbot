@@ -7,13 +7,23 @@
     <img src="imgs/csgo.PNG" width="200" />
 </p>
 
-AI Aimbot works in any game with humaniod characters and utilzes YOLOv5. (Mouse movements don't work in Valorant currently) It is currently 100% undetectable to anti-cheat systems due to it being visual-only in nature. You could be found cheating if you are manually reported by another player and your game is review due to the botty looking nature of an Aimbot.
+## Table of Contents
+  - [Intro](#intro)
+  - [Configurable Settings](#configurable-settings)
+  - [Current Stats](#current-stats)
+    - [REQUIREMENTS](#requirements)
+    - [Pre-setup](#pre-setup)
+    - [Run](#run)
+  - [Community Based](#community-based)
+
+## Intro
+AI Aimbot works in any game with humanoid characters and utilizes YOLOv5. (Mouse movements don't work in Valorant currently) It is currently 100% undetectable to anti-cheat systems due to it being visual-only in nature. You could be found cheating if you are manually reported by another player and your game is reviewed manually due to the botty looking aimming of an Aimbot.
 
 This is meant for educational purposed and to expose how poorly prepared game developers are with these new waves on AI based cheats. Please share with this with your friendly neighborhood game dev so they can start patching.
 
 Code is all in 1 file for easy of viewing and learning from.
 
-***Use at your own risk, if you get banned get rekted idiot***
+***Use at your own risk. If you get banned get rekted idiot***
 
 **Adhere to our GNU licence, come on we are a nonprofit.**<br />
 - free to use, sell, profit from, litterally anything you want to do with it
@@ -23,14 +33,6 @@ Watch the tutorial video! - Coming Soon<br />
 Watch the shorts video! - https://youtu.be/EEgspHlU_H0
 
 Join teh Discord - https://discord.gg/rootkit
-
-- [AI Aimbot](#ai-aimbot)
-  - [Configurable Settings](#configurable-settings)
-  - [Current Stats](#current-stats)
-    - [REQUIREMENTS](#requirements)
-    - [Pre-setup](#pre-setup)
-    - [Run](#run)
-  - [Community Based](#community-based)
 
 ## Configurable Settings
 *Default settings are good for most use cases. Read comments in code for more details.<br>
