@@ -34,20 +34,9 @@ ANYTHING dealing with Machine Learning can be funky with your computer. So if yo
 
 4. To install `PyTorch` go to this website, https://pytorch.org/get-started/locally/, and Select the stable build, your OS, Pip, Python and CUDA 11.3. Then select the text that is generated and run that command.
 
-6. Copy and past the commands below into your terminal. This will install the Open Source packages needed to run the program.
+6. Copy and past the command below into your terminal. This will install the Open Source packages needed to run the program.
 ```
-pip install PyAutoGUI
-pip install PyDirectInput
-pip install Pillow
-pip install opencv-python
-pip install mss
-pip install numpy
-pip install pandas
-pip install win32api
-pip install yaml
-pip install tqdm
-pip install matplotlib
-pip install seaborn
+pip install -r requirements.txt
 ```
 
 ### Run
