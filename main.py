@@ -1,12 +1,9 @@
 from unittest import result
 import torch
-
 import pyautogui
 import gc
-
 import numpy as np
-import os, json, cv2, random
-from PIL import Image
+import cv2
 import time
 import mss
 import win32api, win32con
@@ -22,13 +19,24 @@ def main():
     # How big the Autoaim box should be around the center of the screen
     aaDetectionBox = 320
 
-    # Autoaim speed
+    # For use in games that are 3rd person and character model interferes with the autoaim
+    # EXAMPLE: Fortnite and New World
+    aaRightShift = 0
+
+    # Autoaim mouse movement amplifier
     aaMovementAmp = 1.1
 
     # Person Class Confidence
     confidence = 0.5
 
+    # What key to press to quit and shutdown the autoaim
+    aaQuitKey = "Q"
+
+    # If you want to main slightly upwards towards the head
     headshot_mode = True
+
+    # Displays the Corrections per second in the terminal
+    cpsDisplay = True
 
     # Set to True if you want to get the visuals
     visuals = False
@@ -47,7 +55,7 @@ def main():
 
     # Setting up the screen shots
     sctArea = {"mon": 1, "top": videoGameWindow.top + (videoGameWindow.height - screenShotHeight) // 2,
-                         "left": ((videoGameWindow.left + videoGameWindow.right) // 2) - (screenShotWidth // 2),
+                         "left": aaRightShift + ((videoGameWindow.left + videoGameWindow.right) // 2) - (screenShotWidth // 2),
                          "width": screenShotWidth,
                          "height": screenShotHeight}
 
@@ -75,7 +83,8 @@ def main():
     # Main loop Quit if Q is pressed
     last_mid_coord = None
     aimbot=False
-    while win32api.GetAsyncKeyState(ord('Q')) == 0:
+
+    while win32api.GetAsyncKeyState(ord(aaQuitKey)) == 0:
         # Getting screenshop, making into np.array and dropping alpha dimention.
         npImg = np.delete(np.array(sct.grab(sctArea)), 3, axis=2)
 
@@ -105,7 +114,7 @@ def main():
                 targets.sort_values(by="dist", ascending=False)
 
             # Take the first person that shows up in the dataframe (Recall that we sort based on Euclidean distance)
-            xMid = round((targets.iloc[0].xmax + targets.iloc[0].xmin) / 2)
+            xMid = round((targets.iloc[0].xmax + targets.iloc[0].xmin) / 2) + aaRightShift
             yMid = round((targets.iloc[0].ymax + targets.iloc[0].ymin) / 2)
 
             box_height = targets.iloc[0].ymax - targets.iloc[0].ymin
@@ -145,7 +154,8 @@ def main():
         # Forced garbage cleanup every second
         count += 1
         if (time.time() - sTime) > 1:
-            print(count)
+            if cpsDisplay:
+                print("CPS: {}".format(count))
             count = 0
             sTime = time.time()
 
