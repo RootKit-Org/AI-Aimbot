@@ -47,7 +47,7 @@ def main():
         videoGameWindow = videoGameWindows[0]
     except:
         print("The game window you are trying to select doesn't exist.")
-        print("Check variable videoGameWindowTitle (typically on line 15")
+        print("Check variable videoGameWindowTitle (typically on line 13")
         exit()
 
     # Select that Window
