@@ -29,7 +29,7 @@ Code is all in 1 file for easy of viewing and learning from.
 - free to use, sell, profit from, litterally anything you want to do with it
 - **credit MUST be given to RootKit for the underlying base code**
 
-Watch the tutorial video! - Coming Soon<br />
+Watch the tutorial video! - https://www.youtube.com/watch?v=TCJHLbbeLhg<br />
 Watch the shorts video! - https://youtu.be/EEgspHlU_H0
 
 Join teh Discord - https://discord.gg/rootkit
