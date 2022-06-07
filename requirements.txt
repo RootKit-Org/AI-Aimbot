@@ -10,3 +10,4 @@ pyyaml
 tqdm
 matplotlib
 seaborn
+requests
