@@ -35,7 +35,7 @@ Watch the shorts video! - https://youtu.be/EEgspHlU_H0
 Join teh Discord - https://discord.gg/rootkit
 
 ## Known games that can identify it as a cheat
-Splitgate (discoved by hash#5871 and ˞˞˞˞˞˞˞˞˞˞˞˞˞˞˞˞˞˞#2373 on discord 06/20/22)
+Splitgate (discovered by hash#5871 and ˞˞˞˞˞˞˞˞˞˞˞˞˞˞˞˞˞˞#2373 on discord 06/20/22)
 
 ## Configurable Settings
 *Default settings are good for most use cases. Read comments in code for more details.<br>
