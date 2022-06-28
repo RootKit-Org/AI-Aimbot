@@ -32,6 +32,14 @@ def main():
     # What key to press to quit and shutdown the autoaim
     aaQuitKey = "Q"
 
+    # What key to activate the aimbot functionality
+    # Refer to: https://docs.microsoft.com/en-us/windows/win32/inputdev/virtual-key-codes
+    aaActivateKey = 0x14;
+
+    # Whether the `aaActivateKey` should be a toggle or not
+    # If this value is `False` then you'll need to hold the key down
+    aaShouldToggle = True;
+
     # If you want to main slightly upwards towards the head
     headshot_mode = True
 
@@ -84,7 +92,23 @@ def main():
     last_mid_coord = None
     aimbot=False
 
+    # State variables for whether the aimbot should be active
+    aimbotActive = False;
+    isActivateKeyDown = False;
+    wasActivateKeyDown = False;
+    # The core loop of the program: the heart.
     while win32api.GetAsyncKeyState(ord(aaQuitKey)) == 0:
+        # This checks if the activate key is currently held down
+        isActivateKeyDown = (win32api.GetAsyncKeyState(aaActivateKey) & 0x8000) == 0x8000;
+        # If we're in toggle mode and the key was *just* pressed this frame then we toggle the aimbot
+        if ((aaShouldToggle == True) and (isActivateKeyDown == True) and (wasActivateKeyDown == False)):
+            aimbotActive = not aimbotActive;
+        # If we're not in toggle mode then we want the aimbot to be active only if the activate key is currently held down
+        elif (aaShouldToggle == False):
+            aimbotActive = isActivateKeyDown;
+        # Now that we're done using 'isActivateKeyDown', we save its state so we can check it next frame
+        wasActivateKeyDown = isActivateKeyDown;
+
         # Getting screenshop, making into np.array and dropping alpha dimention.
         npImg = np.delete(np.array(sct.grab(sctArea)), 3, axis=2)
 
@@ -125,8 +149,8 @@ def main():
             mouseMove = [xMid - cWidth, (yMid - headshot_offset) - cHeight]
             cv2.circle(npImg, (int(mouseMove[0] + xMid), int(mouseMove[1] + yMid - headshot_offset)), 3, (0, 0, 255))
 
-            # Moving the mouse
-            if win32api.GetKeyState(0x14):
+            # Moving the mouse if the aimbot is active
+            if aimbotActive == True:
                 win32api.mouse_event(win32con.MOUSEEVENTF_MOVE, int(mouseMove[0] * aaMovementAmp), int(mouseMove[1] * aaMovementAmp), 0, 0)
             last_mid_coord = [xMid, yMid]
 

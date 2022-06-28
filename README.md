@@ -47,6 +47,11 @@ Splitgate (discovered by hash#5871 and ˞˞˞˞˞˞˞˞˞˞˞˞˞˞˞˞˞˞#2373
 
 `aaQuitKey` - Default is `q`, this may need to be changed to another key depending on the game.
 
+`aaActivateKey` - Default is `0x14` (CAPS LOCK). This is the key that activates the aimbot (auto-aim) functionality.<br>
+Refer to [this page](https://docs.microsoft.com/en-us/windows/win32/inputdev/virtual-key-codes) for all possible values, and remember to use the VALUE not the name of the key!
+
+`aaShouldToggle` - Default is `True`. Value determines whether `aaActivateKey` is treated as a toggle or not. If `True` then pressing `aaActivateKey` will toggle the aimbot on or off. If `False` then the aimbot will only be active if you're holding the key down.
+
 `headshot_mode` - Make `False` if you want to aim more toward center mass.
 
 `cpsDisplay` - Make `False` if you don't want the CPS to be displayed in the terminal.
