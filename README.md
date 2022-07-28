@@ -1,5 +1,9 @@
 [![Pull Requests Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat)](http://makeapullrequest.com)
+<<<<<<< HEAD
 # AI Aimbot - Massive Update
+=======
+# AI Aimbot
+>>>>>>> 8ea7f8612d952dbf628d1686e09fee52fddf458b
 
 <p float="left">
     <img src="imgs/halo.PNG" width="200" />
@@ -17,7 +21,11 @@
   - [Community Based](#community-based)
 
 ## Intro
+<<<<<<< HEAD
 AI Aimbot works in any game with humanoid characters and utilizes YOLOv5 (ultralytics/yolov5). Mouse movements don't work in Valorant currently. It is currently 100% undetectable to anti-cheat systems due to it being visual-only in nature. You could be found cheating if you are manually reported by another player and your game is reviewed manually due to the botty looking aimming of an Aimbot.
+=======
+AI Aimbot works in any game with humanoid characters and utilizes YOLOv5. (Mouse movements don't work in Valorant currently) It is currently 100% undetectable to anti-cheat systems due to it being visual-only in nature. You could be found cheating if you are manually reported by another player and your game is reviewed manually due to the botty looking aimming of an Aimbot.
+>>>>>>> 8ea7f8612d952dbf628d1686e09fee52fddf458b
 
 This is meant for educational purposed and to expose how poorly prepared game developers are with these new waves on AI based cheats. Please share with this with your friendly neighborhood game dev so they can start patching.
 
@@ -29,11 +37,17 @@ Code is all in 1 file for easy of viewing and learning from.
 - free to use, sell, profit from, litterally anything you want to do with it
 - **credit MUST be given to RootKit for the underlying base code**
 
-Watch the tutorial video! - Coming Soon<br />
+Watch the tutorial video! - https://www.youtube.com/watch?v=TCJHLbbeLhg<br />
 Watch the shorts video! - https://youtu.be/EEgspHlU_H0
 
 Join teh Discord - https://discord.gg/rootkit
 
+<<<<<<< HEAD
+=======
+## Known games that can identify it as a cheat
+Splitgate (discovered by hash#5871 and ˞˞˞˞˞˞˞˞˞˞˞˞˞˞˞˞˞˞#2373 on discord 06/20/22)
+
+>>>>>>> 8ea7f8612d952dbf628d1686e09fee52fddf458b
 ## Configurable Settings
 *Default settings are good for most use cases. Read comments in code for more details.<br>
 **CAPS_LOCK is the default for toggling on and off the autoaim functionality**
@@ -94,11 +108,20 @@ If you are comfortable with your skills, you can run the other 4 versions. You c
 
 2. Make sure you have a pet Python (aka install python) - https://www.python.org/
 
+***IF YOU GET THE FOLLOWING ERROR `python is not recognized as an internal or external command, operable program, or batch file` Watch This: https://youtu.be/E2HvWhhAW0g***
+
+***IF YOU GET THE FOLLOWING ERROR `pip is not recognized as an internal or external command, operable program, or batch file` Watch This: https://youtu.be/zWYvRS7DtOg***
+
 3. (Windows Users) Open up either `PowerShell` or `Command Prompt`. This can be done by pressing the Windows Key and searching for one of those applications.
 
 4. To install `PyTorch` go to this website, https://pytorch.org/get-started/locally/, and Select the stable build, your OS, Pip, Python and CUDA 11.3. Then select the text that is generated and run that command.
 
+<<<<<<< HEAD
 6. Copy and paste the commands below into your terminal. This will install the Open Source packages needed to run the program. You will need to `cd` into the downloaded directory first. Follow step 2 in the Run section below if you need help.
+=======
+5. Copy and past the command below into your terminal. This will install the Open Source packages needed to run the program. You will need to `cd` into the downloaded directory first. Follow step 2 in the Run section below if you need help.
+
+>>>>>>> 8ea7f8612d952dbf628d1686e09fee52fddf458b
 ```
 pip install -r requirements.txt
 
