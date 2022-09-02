@@ -98,9 +98,9 @@ def main():
             im = torch.from_numpy(cp.asnumpy(im)).to('cuda')
             
             #Converting to numpy for visuals
-             im0 = im[0].permute(1, 2, 0) * 255
-             im0 = im0.cpu().numpy().astype(np.uint8)
-             im0 = cv2.cvtColor(im0, cv2.COLOR_RGB2BGR) #Image has to be in BGR for visualization 
+            im0 = im[0].permute(1, 2, 0) * 255
+            im0 = im0.cpu().numpy().astype(np.uint8)
+            im0 = cv2.cvtColor(im0, cv2.COLOR_RGB2BGR) #Image has to be in BGR for visualization 
               
             # Detecting all the objects
             results = model(im)
