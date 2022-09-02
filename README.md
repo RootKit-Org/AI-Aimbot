@@ -80,13 +80,15 @@ The guide below starting with *Pre-Setup** will get the `main.py` version runnin
 
 If you are comfortable with your skills, you can run the other 4 versions. You can also get AMD GPUs running the bot using the onnx version. This is advance stuff. **If you are not advance, skip to pre-setup below.** Python 3.9 is recommened if you are going to continue due to packages compatibility issues.
 
+**EXPECT LITTLE TO NO HELP FROM STAFF IN REGARDS TO ANY OF THE ADVANCE SET UP UNLESS YOU ARE A PATREON MEMBER.** This includes openning issues. If you are opening an issue, give full content including but not limited to OS, GPU, RAM, Toolkit version, cuDNN version, tensorRT version, etc.
+
 `main_torch_gpu.py` will be the easiest to get running. You just need to install pip install `cupy` based on your CUDA Toolkti version. This can give up to a 10% performance boost.
 
 `main_onnx_cpu.py` is for those of you who don't have a nvidia CPU. It will be optimized for CPU based compute. You need to `pip install onnxruntime`.
 
 `main_onnx_gpu.py` will give you up to a 100% performance boost. You will need to pip install `onnxruntime` specific for your GPU and toolkit version. An AMD GPU compatible version of `onnxruntime` is available for linux users only right now.
 
-`main_tensorrt_gpu.py` is the BEST. It gives over a 200% performance boost. In our testing, the screenshot engine was the bottleneck. Tensorrt is only available via download from NVIDIA's site. You will need to make an account. Just go to this link and get `TensorRT 8.4 GA`. https://developer.nvidia.com/tensorrt You will need to install it via the .whl file they give you.
+`main_tensorrt_gpu.py` is the BEST. It gives over a 200% performance boost. In our testing, the screenshot engine was the bottleneck. Tensorrt is only available via download from NVIDIA's site. You will need to make an account. Just go to this link and get `TensorRT 8.4 GA`. https://developer.nvidia.com/tensorrt You will need to install it via the .whl file they give you. You may also need https://developer.nvidia.com/cudnn.
 
 ### REQUIREMENTS
 - Nvidia RTX 2050 or higher

@@ -96,7 +96,12 @@ def main():
 
             im = cp.moveaxis(npImg, 3, 1)
             im = torch.from_numpy(cp.asnumpy(im)).to('cuda')
-
+            
+            #Converting to numpy for visuals
+             im0 = im[0].permute(1, 2, 0) * 255
+             im0 = im0.cpu().numpy().astype(np.uint8)
+             im0 = cv2.cvtColor(im0, cv2.COLOR_RGB2BGR) #Image has to be in BGR for visualization 
+              
             # Detecting all the objects
             results = model(im)
 
@@ -159,10 +164,10 @@ def main():
                     idx = 0
                     # draw the bounding box and label on the frame
                     label = "{}: {:.2f}%".format("Human", confidence * 100)
-                    cv2.rectangle(npImg, (startX, startY), (endX, endY),
+                    cv2.rectangle(im0, (startX, startY), (endX, endY),
                         COLORS[idx], 2)
                     y = startY - 15 if startY - 15 > 15 else startY + 15
-                    cv2.putText(npImg, label, (startX, y),
+                    cv2.putText(im0, label, (startX, y),
                         cv2.FONT_HERSHEY_SIMPLEX, 0.5, COLORS[idx], 2)
 
             # Forced garbage cleanup every second
@@ -178,7 +183,7 @@ def main():
 
             # See visually what the Aimbot sees
             if visuals:
-                cv2.imshow('Live Feed', npImg)
+                cv2.imshow('Live Feed', im0)
                 if (cv2.waitKey(1) & 0xFF) == ord('q'):
                     exit()
     camera.stop()

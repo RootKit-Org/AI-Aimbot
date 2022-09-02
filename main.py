@@ -12,7 +12,7 @@ from utils.general import (LOGGER, check_file, check_img_size, check_imshow, che
 import dxcam
 
 def main():
-    # Window title to go after and the height of the screenshots
+    # Window title of the game, don't need the entire name
     videoGameWindowTitle = "Counter"
 
     # Portion of screen to be captured (This forms a square/rectangle around the center of screen)
