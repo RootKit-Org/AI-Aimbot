@@ -8,3 +8,6 @@ yolov5s.engine
 yolov5
 tensorrt-8.4.1.5-cp39-none-win_amd64.whl
 tensorrt-8.4.1.5-cp310-none-win_amd64.whl
+__pycache__
+utils/__pycache__
+models/__pycache__

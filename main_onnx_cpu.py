@@ -5,12 +5,13 @@ import gc
 import numpy as np
 import cv2
 import time
-import win32api, win32con
+import win32api
+import win32con
 import pandas as pd
-from utils.general import (LOGGER, check_file, check_img_size, check_imshow, check_requirements, colorstr, cv2,
-                           increment_path, non_max_suppression, print_args, scale_coords, strip_optimizer, xyxy2xywh)
+from utils.general import (cv2, non_max_suppression, xyxy2xywh)
 import dxcam
 import torch
+
 
 def main():
     # Window title to go after and the height of the screenshots
@@ -61,8 +62,10 @@ def main():
                          "height": screenShotHeight}
 
     # Starting screenshoting engine
-    left = aaRightShift + ((videoGameWindow.left + videoGameWindow.right) // 2) - (screenShotWidth // 2)
-    top = videoGameWindow.top + (videoGameWindow.height - screenShotHeight) // 2
+    left = aaRightShift + \
+        ((videoGameWindow.left + videoGameWindow.right) // 2) - (screenShotWidth // 2)
+    top = videoGameWindow.top + \
+        (videoGameWindow.height - screenShotHeight) // 2
     right, bottom = left + 320, top + 320
 
     region = (left, top, right, bottom)
@@ -82,7 +85,8 @@ def main():
 
     so = ort.SessionOptions()
     so.graph_optimization_level = ort.GraphOptimizationLevel.ORT_ENABLE_ALL
-    ort_sess = ort.InferenceSession('yolov5s320.onnx', sess_options=so, providers=['CUDAExecutionProvider'])
+    ort_sess = ort.InferenceSession('yolov5s320.onnx', sess_options=so, providers=[
+                                    'CUDAExecutionProvider'])
 
     # Used for colors drawn on bounding boxes
     COLORS = np.random.uniform(0, 255, size=(1500, 3))
@@ -99,21 +103,24 @@ def main():
 
         im = torch.from_numpy(outputs[0]).to('cpu')
 
-        pred = non_max_suppression(im, confidence, confidence, 0, False, max_det=10)
+        pred = non_max_suppression(
+            im, confidence, confidence, 0, False, max_det=10)
 
         targets = []
         for i, det in enumerate(pred):
             s = ""
-            gn = torch.tensor(npImg.shape)[[0, 0, 0, 0]] 
+            gn = torch.tensor(npImg.shape)[[0, 0, 0, 0]]
             if len(det):
                 for c in det[:, -1].unique():
                     n = (det[:, -1] == c).sum()  # detections per class
                     s += f"{n} {int(c)}, "  # add to string
 
                 for *xyxy, conf, cls in reversed(det):
-                    targets.append((xyxy2xywh(torch.tensor(xyxy).view(1, 4)) / gn).view(-1).tolist())  # normalized xywh
+                    targets.append((xyxy2xywh(torch.tensor(xyxy).view(
+                        1, 4)) / gn).view(-1).tolist())  # normalized xywh
 
-        targets = pd.DataFrame(targets, columns = ['current_mid_x', 'current_mid_y', 'width', "height"])
+        targets = pd.DataFrame(
+            targets, columns=['current_mid_x', 'current_mid_y', 'width', "height"])
 
         # If there are people in the center bounding box
         if len(targets) > 0:
@@ -122,7 +129,8 @@ def main():
                 targets['last_mid_x'] = last_mid_coord[0]
                 targets['last_mid_y'] = last_mid_coord[1]
                 # Take distance between current person mid coordinate and last person mid coordinate
-                targets['dist'] = np.linalg.norm(targets.iloc[:, [0,1]].values - targets.iloc[:, [4,5]], axis=1)
+                targets['dist'] = np.linalg.norm(
+                    targets.iloc[:, [0, 1]].values - targets.iloc[:, [4, 5]], axis=1)
                 targets.sort_values(by="dist", ascending=False)
 
             # Take the first person that shows up in the dataframe (Recall that we sort based on Euclidean distance)
@@ -139,7 +147,8 @@ def main():
 
             # Moving the mouse
             if win32api.GetKeyState(0x14):
-                win32api.mouse_event(win32con.MOUSEEVENTF_MOVE, int(mouseMove[0] * aaMovementAmp), int(mouseMove[1] * aaMovementAmp), 0, 0)
+                win32api.mouse_event(win32con.MOUSEEVENTF_MOVE, int(
+                    mouseMove[0] * aaMovementAmp), int(mouseMove[1] * aaMovementAmp), 0, 0)
             last_mid_coord = [xMid, yMid]
 
         else:
@@ -153,16 +162,17 @@ def main():
                 halfH = round(targets["height"][i] / 2)
                 midX = targets['current_mid_x'][i]
                 midY = targets['current_mid_y'][i]
-                (startX, startY, endX, endY) = int(midX + halfW), int(midY + halfH), int(midX - halfW), int(midY - halfH)
+                (startX, startY, endX, endY) = int(midX + halfW), int(midY +
+                                                                      halfH), int(midX - halfW), int(midY - halfH)
 
                 idx = 0
                 # draw the bounding box and label on the frame
                 label = "{}: {:.2f}%".format("Human", confidence * 100)
                 cv2.rectangle(npImg, (startX, startY), (endX, endY),
-                    COLORS[idx], 2)
+                              COLORS[idx], 2)
                 y = startY - 15 if startY - 15 > 15 else startY + 15
                 cv2.putText(npImg, label, (startX, y),
-                    cv2.FONT_HERSHEY_SIMPLEX, 0.5, COLORS[idx], 2)
+                            cv2.FONT_HERSHEY_SIMPLEX, 0.5, COLORS[idx], 2)
 
         # Forced garbage cleanup every second
         count += 1
@@ -182,6 +192,7 @@ def main():
                 exit()
 
     camera.stop()
+
 
 if __name__ == "__main__":
     main()
