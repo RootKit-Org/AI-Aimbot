@@ -27,6 +27,7 @@ from typing import Optional
 from zipfile import ZipFile
 
 import cv2
+import IPython
 import numpy as np
 import pandas as pd
 import pkg_resources as pkg
@@ -136,6 +137,11 @@ def user_config_dir(dir='Ultralytics', env_var='YOLOV5_CONFIG_DIR'):
         path = (path if is_writeable(path) else Path('/tmp')) / dir  # GCP and AWS lambda fix, only /tmp is writeable
     path.mkdir(exist_ok=True)  # make if required
     return path
+
+def is_notebook():
+    # Is environment a Jupyter notebook? Verified on Colab, Jupyterlab, Kaggle, Paperspace
+    ipython_type = str(type(IPython.get_ipython()))
+    return 'colab' in ipython_type or 'zmqshell' in ipython_type
 
 
 CONFIG_DIR = user_config_dir()  # Ultralytics settings dir
