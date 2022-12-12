@@ -127,7 +127,7 @@ If you have python and the packages you are good to go. Load up any game on your
 
 5. Type `python main.py`, press enter.
 
-6. Use CAPS_LOCK to toggle on and off the autoaim functionality. **It is off by defualt**
+6. Use CAPS_LOCK to toggle on and off the autoaim functionality. **It is off by default**
 
 7. Pressing `q` at anytime will completely quit the program
 
