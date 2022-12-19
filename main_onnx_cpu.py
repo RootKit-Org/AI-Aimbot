@@ -53,7 +53,12 @@ def main():
         exit()
 
     # Select that Window
-    videoGameWindow.activate()
+    try:
+        videoGameWindow.activate()
+    except Exception as e:
+        print("Failed to activate game window: {}".format(str(e)))
+        print("Read the relevant restrictions here: https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-setforegroundwindow")
+        return
 
     # Setting up the screen shots
     sctArea = {"mon": 1, "top": videoGameWindow.top + (videoGameWindow.height - screenShotHeight) // 2,
@@ -71,6 +76,12 @@ def main():
     region = (left, top, right, bottom)
 
     camera = dxcam.create(device_idx=0, region=region, max_buffer_len=5120)
+    if camera is None:
+        print("""DXCamera failed to initialize. Some common causes are:
+        1. You are on a laptop with both an integrated GPU and discrete GPU. Go into Windows Graphic Settings, select python.exe and set it to Power Saving Mode.
+         If that doesn't work, then read this: https://github.com/SerpentAI/D3DShot/wiki/Installation-Note:-Laptops
+        2. The game is an exclusive full screen game. Set it to windowed mode.""")
+        return
     camera.start(target_fps=160, video_mode=True)
 
     print(dxcam.device_info())
@@ -195,4 +206,9 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    try:
+        main()
+    except Exception as e:
+        print("Please read the below message and think about how it could be solved before posting it on discord.")
+        print(str(e))
+        print("Please read the above message and think about how it could be solved before posting it on discord.")
