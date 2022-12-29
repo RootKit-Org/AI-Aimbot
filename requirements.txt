@@ -11,3 +11,5 @@ tqdm
 matplotlib
 seaborn
 requests
+ipython
+psutil

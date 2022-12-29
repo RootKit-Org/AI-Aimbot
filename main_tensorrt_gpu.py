@@ -94,7 +94,7 @@ def main():
     sTime = time.time()
 
     # Loading Yolo5 Small AI Model
-    model = DetectMultiBackend('yolov5s320Half.engine', device=torch.device(
+    model = DetectMultiBackend('yolov5s.engine', device=torch.device(
         'cuda'), dnn=False, data='', fp16=True)
     stride, names, pt = model.stride, model.names, model.pt
 
@@ -215,6 +215,8 @@ if __name__ == "__main__":
     try:
         main()
     except Exception as e:
+        import traceback
         print("Please read the below message and think about how it could be solved before posting it on discord.")
+        traceback.print_exception(e)
         print(str(e))
         print("Please read the above message and think about how it could be solved before posting it on discord.")

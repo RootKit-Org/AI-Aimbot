@@ -207,6 +207,8 @@ if __name__ == "__main__":
     try:
         main()
     except Exception as e:
+        import traceback
         print("Please read the below message and think about how it could be solved before posting it on discord.")
+        traceback.print_exception(e)
         print(str(e))
         print("Please read the above message and think about how it could be solved before posting it on discord.")

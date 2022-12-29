@@ -3,10 +3,13 @@
 Common modules
 """
 
+import ast
+import contextlib
 import json
 import math
 import platform
 import warnings
+import zipfile
 from collections import OrderedDict, namedtuple
 from copy import copy
 from pathlib import Path
@@ -18,33 +21,17 @@ import pandas as pd
 import requests
 import torch
 import torch.nn as nn
+from IPython.display import display
 from PIL import Image
 from torch.cuda import amp
 
+from utils import TryExcept
 from utils.dataloaders import exif_transpose, letterbox
 from utils.general import (LOGGER, ROOT, Profile, check_requirements, check_suffix, check_version, colorstr,
-                           increment_path, make_divisible, non_max_suppression, scale_boxes, xywh2xyxy, xyxy2xywh,
-                           yaml_load)
+                           increment_path, is_notebook, make_divisible, non_max_suppression, scale_boxes, xywh2xyxy,
+                           xyxy2xywh, yaml_load)
 from utils.plots import Annotator, colors, save_one_box
 from utils.torch_utils import copy_attr, smart_inference_mode
-
-
-def export_formats():
-    # YOLOv5 export formats
-    x = [
-        ['PyTorch', '-', '.pt', True, True],
-        ['TorchScript', 'torchscript', '.torchscript', True, True],
-        ['ONNX', 'onnx', '.onnx', True, True],
-        ['OpenVINO', 'openvino', '_openvino_model', True, False],
-        ['TensorRT', 'engine', '.engine', False, True],
-        ['CoreML', 'coreml', '.mlmodel', True, False],
-        ['TensorFlow SavedModel', 'saved_model', '_saved_model', True, True],
-        ['TensorFlow GraphDef', 'pb', '.pb', True, True],
-        ['TensorFlow Lite', 'tflite', '.tflite', True, False],
-        ['TensorFlow Edge TPU', 'edgetpu', '_edgetpu.tflite', False, False],
-        ['TensorFlow.js', 'tfjs', '_web_model', False, False],
-        ['PaddlePaddle', 'paddle', '_paddle_model', True, True], ]
-    return pd.DataFrame(x, columns=['Format', 'Argument', 'Suffix', 'CPU', 'GPU'])
 
 
 def autopad(k, p=None, d=1):  # kernel, padding, dilation
@@ -351,7 +338,7 @@ class DetectMultiBackend(nn.Module):
         #   TorchScript:                    *.torchscript
         #   ONNX Runtime:                   *.onnx
         #   ONNX OpenCV DNN:                *.onnx --dnn
-        #   OpenVINO:                       *.xml
+        #   OpenVINO:                       *_openvino_model
         #   CoreML:                         *.mlmodel
         #   TensorRT:                       *.engine
         #   TensorFlow SavedModel:          *_saved_model
@@ -519,6 +506,13 @@ class DetectMultiBackend(nn.Module):
             interpreter.allocate_tensors()  # allocate
             input_details = interpreter.get_input_details()  # inputs
             output_details = interpreter.get_output_details()  # outputs
+            # load metadata
+            with contextlib.suppress(zipfile.BadZipFile):
+                with zipfile.ZipFile(w, "r") as model:
+                    meta_file = model.namelist()[0]
+                    meta = ast.literal_eval(
+                        model.read(meta_file).decode("utf-8"))
+                    stride, names = int(meta['stride']), meta['names']
         elif tfjs:  # TF.js
             raise NotImplementedError(
                 'ERROR: YOLOv5 TF.js inference is not supported')
@@ -527,7 +521,7 @@ class DetectMultiBackend(nn.Module):
             check_requirements('paddlepaddle-gpu' if cuda else 'paddlepaddle')
             import paddle.inference as pdi
             if not Path(w).is_file():  # if not *.pdmodel
-                # get *.xml file from *_openvino_model dir
+                # get *.pdmodel file from *_paddle_model dir
                 w = next(Path(w).rglob('*.pdmodel'))
             weights = Path(w).with_suffix('.pdiparams')
             config = pdi.Config(str(w), str(weights))
@@ -671,7 +665,8 @@ class DetectMultiBackend(nn.Module):
         # Return model type from model path, i.e. path='path/to/model.onnx' -> type=onnx
         # types = [pt, jit, onnx, xml, engine, coreml, saved_model, pb, tflite, edgetpu, tfjs, paddle]
         from utils.downloads import is_url
-        sf = list(export_formats().Suffix)  # export suffixes
+        sf = ['.pt', '.torchscript', '.onnx', '_openvino_model', '.engine', '.mlmodel', '_saved_model',
+              '.pb', '.tflite', '_edgetpu.tflite', '_web_model', '_paddle_model']  # export suffixes
         if not is_url(p, check=False):
             check_suffix(p, sf)  # checks
         url = urlparse(p)  # if url may be Triton inference server
@@ -775,11 +770,11 @@ class AutoShape(nn.Module):
                 s = im.shape[:2]  # HWC
                 shape0.append(s)  # image shape
                 g = max(size) / max(s)  # gain
-                shape1.append([y * g for y in s])
+                shape1.append([int(y * g) for y in s])
                 ims[i] = im if im.data.contiguous else np.ascontiguousarray(
                     im)  # update
-            shape1 = [make_divisible(x, self.stride) for x in np.array(
-                shape1).max(0)] if self.pt else size  # inf shape
+            shape1 = [make_divisible(x, self.stride)
+                      for x in np.array(shape1).max(0)]  # inf shape
             x = [letterbox(im, shape1, auto=False)[0] for im in ims]  # pad
             x = np.ascontiguousarray(np.array(x).transpose(
                 (0, 3, 1, 2)))  # stack and BHWC to BCHW
@@ -862,7 +857,7 @@ class Detections:
             im = Image.fromarray(im.astype(np.uint8)) if isinstance(
                 im, np.ndarray) else im  # from np
             if show:
-                im.show(self.files[i])  # show
+                display(im) if is_notebook() else im.show(self.files[i])
             if save:
                 f = self.files[i]
                 im.save(save_dir / f)  # save
@@ -879,17 +874,18 @@ class Detections:
                 LOGGER.info(f'Saved results to {save_dir}\n')
             return crops
 
+    @TryExcept('Showing images is not supported in this environment')
     def show(self, labels=True):
         self._run(show=True, labels=labels)  # show results
 
-    def save(self, labels=True, save_dir='runs/detect/exp'):
+    def save(self, labels=True, save_dir='runs/detect/exp', exist_ok=False):
         save_dir = increment_path(
-            save_dir, exist_ok=save_dir != 'runs/detect/exp', mkdir=True)  # increment save_dir
+            save_dir, exist_ok, mkdir=True)  # increment save_dir
         self._run(save=True, labels=labels, save_dir=save_dir)  # save results
 
-    def crop(self, save=True, save_dir='runs/detect/exp'):
+    def crop(self, save=True, save_dir='runs/detect/exp', exist_ok=False):
         save_dir = increment_path(
-            save_dir, exist_ok=save_dir != 'runs/detect/exp', mkdir=True) if save else None
+            save_dir, exist_ok, mkdir=True) if save else None
         # crop results
         return self._run(crop=True, save=save, save_dir=save_dir)
 
