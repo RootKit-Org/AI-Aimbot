@@ -8,9 +8,14 @@
 </p>
 
 ## Table of Contents
+- [AI Aimbot - Massive Update](#ai-aimbot---massive-update)
+  - [Table of Contents](#table-of-contents)
   - [Intro](#intro)
+  - [Known games that can identify it as a cheat](#known-games-that-can-identify-it-as-a-cheat)
   - [Configurable Settings](#configurable-settings)
   - [Current Stats](#current-stats)
+  - [**Different Versions!!!**](#different-versions)
+      - [**TensorRT Setup help**](#tensorrt-setup-help)
     - [REQUIREMENTS](#requirements)
     - [Pre-setup](#pre-setup)
     - [Run](#run)
@@ -88,7 +93,17 @@ If you are comfortable with your skills, you can run the other 4 versions. You c
 
 `main_onnx_gpu.py` will give you up to a 100% performance boost. You will need to pip install `onnxruntime` specific for your GPU and toolkit version. An AMD GPU compatible version of `onnxruntime` is available for linux users only right now.
 
-`main_tensorrt_gpu.py` is the BEST. It gives over a 200% performance boost. In our testing, the screenshot engine was the bottleneck. Tensorrt is only available via download from NVIDIA's site. You will need to make an account. Just go to this link and get `TensorRT 8.4 GA`. https://developer.nvidia.com/tensorrt You will need to install it via the .whl file they give you. You may also need https://developer.nvidia.com/cudnn.
+`main_tensorrt_gpu.py` is the BEST. It gives over a 200% performance boost. 
+#### **TensorRT Setup help**
+In our testing, the screenshot engine was the bottleneck. Tensorrt is only available via download from NVIDIA's site.
+
+You will need to make an account. Just go to this link and get `TensorRT 8.4 GA`. https://developer.nvidia.com/tensorrt You will need to install it via the .whl file they give you. You may also need https://developer.nvidia.com/cudnn.
+
+Sometimes you will need to remake the .engine model. To do this you need to visit the [YoloV5's Github repo](https://github.com/ultralytics/yolov5) and download it. Then execute the `export.py` script in the repo with the command below. This can take up to 20 minutes and have no visual feedback. It's not frozen, just looks like it.
+
+NOTE, you will need to use the provided or download a new version of the yolov5 weights (aka the .pt file). We use the small model, but with tensorrt, you should be able to use a larger model. 
+
+`python .\export.py --weights ./yolov5s.pt --include engine --half --imgsz 320 320 --device 0`
 
 ### REQUIREMENTS
 - Nvidia RTX 2050 or higher
