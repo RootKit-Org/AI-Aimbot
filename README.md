@@ -20,6 +20,7 @@
     - [Pre-setup](#pre-setup)
     - [Run](#run)
   - [Community Based](#community-based)
+    - [Add your own Model](#custom-models)
 
 ## Intro
 AI Aimbot works in any game with humanoid characters and utilizes YOLOv5 (ultralytics/yolov5). Mouse movements don't work in Valorant currently. It is currently 100% undetectable to anti-cheat systems due to it being visual-only in nature. You could be found cheating if you are manually reported by another player and your game is reviewed manually due to the botty looking aimming of an Aimbot.
@@ -82,6 +83,8 @@ ANYTHING dealing with Machine Learning can be funky with your computer. So if yo
 
 ## **Different Versions!!!**
 The guide below starting with *Pre-Setup** will get the `main.py` version running, **BUT** the `main.py` IS THE SLOWEST!!!
+
+Also there is a `custom` folder with user submitted models you can try out. Go explore them and see what you think. Make sure you shout out the dev if you like what they have done!
 
 If you are comfortable with your skills, you can run the other 4 versions. You can also get AMD GPUs running the bot using the onnx version. This is advance stuff. **If you are not advance, skip to pre-setup below.** Python 3.9 is recommened if you are going to continue due to packages compatibility issues.
 
@@ -151,3 +154,18 @@ We are a community based nonprofit. We are always open to pull requests on any o
 
 **We are always looking for new Volunteers to join our Champions!
 If you have any ideas for videos or programs, let us know!**
+
+### Custom Models
+If you trained your own model, then submit a PR with it!
+
+Just add a folder to the `custom` folder with your github name and inside put your `model(s)` and a `readme.md` explaining what they are and how you made them.
+
+For an example, look at the `example-user` folder in `custom`.
+
+Another view of the layout - 
+
+```
+/custom/
+  exampleUsername/
+    model_general.pt
+    readme.md
