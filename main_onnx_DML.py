@@ -97,7 +97,7 @@ def main():
     so = ort.SessionOptions()
     so.graph_optimization_level = ort.GraphOptimizationLevel.ORT_ENABLE_ALL
     ort_sess = ort.InferenceSession('yolov5s320.onnx', sess_options=so, providers=[
-                                    'CUDAExecutionProvider'])
+                                    'DmlExecutionProvider'])
 
     # Used for colors drawn on bounding boxes
     COLORS = np.random.uniform(0, 255, size=(1500, 3))
