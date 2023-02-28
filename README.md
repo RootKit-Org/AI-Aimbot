@@ -38,7 +38,7 @@ Code is all in 1 file for easy of viewing and learning from.
 Watch the tutorial video! - https://www.youtube.com/watch?v=TCJHLbbeLhg<br />
 Watch the shorts video! - https://youtu.be/EEgspHlU_H0
 
-Join teh Discord - https://discord.gg/rootkit
+Join teh Discord - https://discord.gg/rootkitorg
 
 ## Known games that can identify it as a cheat
 Splitgate (discovered by ˞˞˞˞˞˞˞˞˞˞˞˞˞˞˞˞˞˞#2373 on discord 06/20/22)
