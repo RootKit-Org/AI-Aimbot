@@ -3,7 +3,7 @@ PyDirectInput
 Pillow
 opencv-python
 mss
-numpy
+numpy==1.23
 pandas
 pywin32
 pyyaml

@@ -25,7 +25,7 @@ def main():
     aaRightShift = 0
 
     # Autoaim mouse movement amplifier
-    aaMovementAmp = 1.0
+    aaMovementAmp = .8
 
     # Person Class Confidence
     confidence = 0.5

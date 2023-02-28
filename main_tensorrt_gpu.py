@@ -94,7 +94,7 @@ def main():
     sTime = time.time()
 
     # Loading Yolo5 Small AI Model
-    model = DetectMultiBackend('yolov5s320Half.engine', device=torch.device(
+    model = DetectMultiBackend('yolov5s.engine', device=torch.device(
         'cuda'), dnn=False, data='', fp16=True)
     stride, names, pt = model.stride, model.names, model.pt
 

@@ -100,7 +100,7 @@ If you are comfortable with your skills, you can run the other 4 versions. You c
 #### **TensorRT Setup help**
 In our testing, the screenshot engine was the bottleneck. Tensorrt is only available via download from NVIDIA's site.
 
-You will need to make an account. Just go to this link and get `TensorRT 8.4 GA`. https://developer.nvidia.com/tensorrt You will need to install it via the .whl file they give you. You may also need https://developer.nvidia.com/cudnn.
+You will need to make an account. Just go to this link and get `TensorRT 8.5 GA Update 2`. https://developer.nvidia.com/tensorrt You will need to install it via the .whl file they give you. You may also need https://developer.nvidia.com/cudnn.
 
 Sometimes you will need to remake the .engine model. To do this you need to visit the [YoloV5's Github repo](https://github.com/ultralytics/yolov5) and download it. Then execute the `export.py` script in the repo with the command below. This can take up to 20 minutes and have no visual feedback. It's not frozen, just looks like it.
 
@@ -110,12 +110,14 @@ NOTE, you will need to use the provided or download a new version of the yolov5 
 
 ### REQUIREMENTS
 - Nvidia RTX 2050 or higher
-- Nvidia CUDA Toolkit 11.3 (https://developer.nvidia.com/cuda-11.3.0-download-archive)
+- One of the following
+  - Nvidia CUDA Toolkit 11.6 (Most compatibility) (https://developer.nvidia.com/cuda-11-6-0-download-archive)
+  - Nvidia CUDA Toolkit 11.7 (No onnx support currently, faster) (https://developer.nvidia.com/cuda-11-7-0-download-archive)
 
 ### Pre-setup
 1. Unzip the file and place the folder somewhere easy to access
 
-2. Make sure you have a pet Python (aka install python) - https://www.python.org/
+2. Make sure you have a pet Python (aka install python, use 3.10) - https://www.python.org/
 
 ***IF YOU GET THE FOLLOWING ERROR `python is not recognized as an internal or external command, operable program, or batch file` Watch This: https://youtu.be/E2HvWhhAW0g***
 
@@ -123,7 +125,8 @@ NOTE, you will need to use the provided or download a new version of the yolov5 
 
 3. (Windows Users) Open up either `PowerShell` or `Command Prompt`. This can be done by pressing the Windows Key and searching for one of those applications.
 
-4. To install `PyTorch` go to this website, https://pytorch.org/get-started/locally/, and Select the stable build, your OS, Pip, Python and CUDA 11.3. Then select the text that is generated and run that command.
+4. To install `PyTorch` go to this website, https://pytorch.org/get-started/locally/, and Select the stable build, your OS, Pip, Python and CUDA 11.6. Then select the text that is generated and run that command.
+
 
 6. Copy and paste the commands below into your terminal. This will install the Open Source packages needed to run the program. You will need to `cd` into the downloaded directory first. Follow step 2 in the Run section below if you need help.
 ```
