@@ -11,6 +11,7 @@ import pandas as pd
 from utils.general import (cv2, non_max_suppression, xyxy2xywh)
 import dxcam
 import torch
+import torch_directml
 
 
 def main():
