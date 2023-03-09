@@ -1,6 +1,5 @@
 import onnxruntime as ort
 import numpy as np
-import cupy as cp
 import pyautogui
 import gc
 import numpy as np
@@ -109,7 +108,7 @@ def main():
         npImg = npImg.astype(cp.half)
         npImg = cp.moveaxis(npImg, 3, 1)
 
-        outputs = ort_sess.run(None, {'images': cp.asnumpy(npImg)})
+        outputs = ort_sess.run(None, {'images': npImg})
 
         im = torch.from_numpy(outputs[0]).to('cpu')
 
