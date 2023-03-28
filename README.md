@@ -38,6 +38,12 @@ Code is all in 1 file for easy of viewing and learning from.
 Watch the tutorial video! - https://www.youtube.com/watch?v=TCJHLbbeLhg<br />
 Watch the shorts video! - https://youtu.be/EEgspHlU_H0
 
+Watch the live stream explainer - https://www.youtube.com/watch?v=uniL5yR7y0M&ab_channel=RootKit<br />
+Watch the pre-setup tutorial - Coming soon...<br />
+Watch the main setup/run tutorial - Comming soon...<br />
+Watch the onnx setup/run tutorial - Comming soon...<br />
+Watch the tensorrt setup/run tutorial - Comming soon...
+
 Join teh Discord - https://discord.gg/rootkitorg
 
 ## Known games that can identify it as a cheat
