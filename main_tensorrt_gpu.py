@@ -94,7 +94,7 @@ def main():
     sTime = time.time()
 
     # Loading Yolo5 Small AI Model
-    model = DetectMultiBackend('yolov5s.engine', device=torch.device(
+    model = DetectMultiBackend('yolov5s320Half.engine', device=torch.device(
         'cuda'), dnn=False, data='', fp16=True)
     stride, names, pt = model.stride, model.names, model.pt
 
@@ -106,17 +106,18 @@ def main():
     with torch.no_grad():
         while win32api.GetAsyncKeyState(ord(aaQuitKey)) == 0:
 
-            npImg = cp.array([camera.get_latest_frame()]) / 255
-            npImg = npImg.astype(cp.half)
+            npImg = cp.array([camera.get_latest_frame()])
+            im = npImg / 255
+            im = im.astype(cp.half)
 
-            im = cp.moveaxis(npImg, 3, 1)
+            im = cp.moveaxis(im, 3, 1)
             im = torch.from_numpy(cp.asnumpy(im)).to('cuda')
 
-            # Converting to numpy for visuals
-            im0 = im[0].permute(1, 2, 0) * 255
-            im0 = im0.cpu().numpy().astype(np.uint8)
-            # Image has to be in BGR for visualization
-            im0 = cv2.cvtColor(im0, cv2.COLOR_RGB2BGR)
+            # # Converting to numpy for visuals
+            # im0 = im[0].permute(1, 2, 0) * 255
+            # im0 = im0.cpu().numpy().astype(np.uint8)
+            # # Image has to be in BGR for visualization
+            # im0 = cv2.cvtColor(im0, cv2.COLOR_RGB2BGR)
 
             # Detecting all the objects
             results = model(im)
@@ -135,10 +136,10 @@ def main():
 
                     for *xyxy, conf, cls in reversed(det):
                         targets.append((xyxy2xywh(torch.tensor(xyxy).view(
-                            1, 4)) / gn).view(-1).tolist())  # normalized xywh
+                            1, 4)) / gn).view(-1).tolist() + [float(conf)])  # normalized xywh
 
             targets = pd.DataFrame(
-                targets, columns=['current_mid_x', 'current_mid_y', 'width', "height"])
+                targets, columns=['current_mid_x', 'current_mid_y', 'width', "height", "confidence"])
 
             # If there are people in the center bounding box
             if len(targets) > 0:
@@ -174,6 +175,7 @@ def main():
 
             # See what the bot sees
             if visuals:
+                npImg = cp.asnumpy(npImg[0])
                 # Loops over every item identified and draws a bounding box
                 for i in range(0, len(targets)):
                     halfW = round(targets["width"][i] / 2)
@@ -185,11 +187,11 @@ def main():
 
                     idx = 0
                     # draw the bounding box and label on the frame
-                    label = "{}: {:.2f}%".format("Human", confidence * 100)
-                    cv2.rectangle(im0, (startX, startY), (endX, endY),
+                    label = "{}: {:.2f}%".format("Human", targets["confidence"][i] * 100)
+                    cv2.rectangle(npImg, (startX, startY), (endX, endY),
                                   COLORS[idx], 2)
                     y = startY - 15 if startY - 15 > 15 else startY + 15
-                    cv2.putText(im0, label, (startX, y),
+                    cv2.putText(npImg, label, (startX, y),
                                 cv2.FONT_HERSHEY_SIMPLEX, 0.5, COLORS[idx], 2)
 
             # Forced garbage cleanup every second
@@ -205,7 +207,7 @@ def main():
 
             # See visually what the Aimbot sees
             if visuals:
-                cv2.imshow('Live Feed', im0)
+                cv2.imshow('Live Feed', npImg)
                 if (cv2.waitKey(1) & 0xFF) == ord('q'):
                     exit()
     camera.stop()

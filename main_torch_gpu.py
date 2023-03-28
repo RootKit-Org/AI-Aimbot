@@ -25,10 +25,10 @@ def main():
     aaRightShift = 0
 
     # Autoaim mouse movement amplifier
-    aaMovementAmp = 1.0
+    aaMovementAmp = .8
 
     # Person Class Confidence
-    confidence = 0.25
+    confidence = 0.4
 
     # What key to press to quit and shutdown the autoaim
     aaQuitKey = "Q"
@@ -136,10 +136,10 @@ def main():
 
                     for *xyxy, conf, cls in reversed(det):
                         targets.append((xyxy2xywh(torch.tensor(xyxy).view(
-                            1, 4)) / gn).view(-1).tolist())  # normalized xywh
+                            1, 4)) / gn).view(-1).tolist() + [float(conf)])  # normalized xywh
 
             targets = pd.DataFrame(
-                targets, columns=['current_mid_x', 'current_mid_y', 'width', "height"])
+                targets, columns=['current_mid_x', 'current_mid_y', 'width', "height", "confidence"])
 
             # If there are people in the center bounding box
             if len(targets) > 0:
@@ -186,7 +186,7 @@ def main():
 
                     idx = 0
                     # draw the bounding box and label on the frame
-                    label = "{}: {:.2f}%".format("Human", confidence * 100)
+                    label = "{}: {:.2f}%".format("Human", targets["confidence"][i] * 100)
                     cv2.rectangle(npImg, (startX, startY), (endX, endY),
                                   COLORS[idx], 2)
                     y = startY - 15 if startY - 15 > 15 else startY + 15

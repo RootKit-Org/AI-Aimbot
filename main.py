@@ -28,7 +28,7 @@ def main():
     aaMovementAmp = .8
 
     # Person Class Confidence
-    confidence = 0.5
+    confidence = 0.4
 
     # What key to press to quit and shutdown the autoaim
     aaQuitKey = "Q"
@@ -113,7 +113,7 @@ def main():
             npImg = np.array(camera.get_latest_frame())
 
             # Normalizing Data
-            im = torch.from_numpy(npImg).to('cuda')
+            im = torch.from_numpy(npImg)
             im = torch.movedim(im, 2, 0)
             im = im.half()
             im /= 255
@@ -125,7 +125,7 @@ def main():
 
             # Suppressing results that dont meet thresholds
             pred = non_max_suppression(
-                results, 0.25, 0.25, 0, False, max_det=1000)
+                results, confidence, confidence, 0, False, max_det=1000)
 
             # Converting output to usable cords
             targets = []
@@ -139,11 +139,11 @@ def main():
 
                     for *xyxy, conf, cls in reversed(det):
                         targets.append((xyxy2xywh(torch.tensor(xyxy).view(
-                            1, 4)) / gn).view(-1).tolist())  # normalized xywh
-
+                            1, 4)) / gn).view(-1).tolist() + [float(conf)])  # normalized xywh
+                        
             targets = pd.DataFrame(
-                targets, columns=['current_mid_x', 'current_mid_y', 'width', "height"])
-
+                targets, columns=['current_mid_x', 'current_mid_y', 'width', "height", "confidence"])
+            
             # If there are people in the center bounding box
             if len(targets) > 0:
                 # Get the last persons mid coordinate if it exists
@@ -187,12 +187,10 @@ def main():
                     (startX, startY, endX, endY) = int(
                         midX + halfW), int(midY + halfH), int(midX - halfW), int(midY - halfH)
 
-                    confidence = .5
-
                     idx = 0
 
                     # draw the bounding box and label on the frame
-                    label = "{}: {:.2f}%".format("Human", confidence * 100)
+                    label = "{}: {:.2f}%".format("Human", targets["confidence"][i] * 100)
                     cv2.rectangle(npImg, (startX, startY), (endX, endY),
                                   COLORS[idx], 2)
                     y = startY - 15 if startY - 15 > 15 else startY + 15
