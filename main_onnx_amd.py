@@ -26,6 +26,15 @@ def main():
     # EXAMPLE: Fortnite and New World
     aaRightShift = 0
 
+    # An alternative to aaRightShift
+    # Mark regions of the screen where your own player character is
+    # This will often prevent the mouse from drifting to an edge of the screen
+    # Format is (minX, minY, maxX, maxY) to form a rectangle
+    # Remember, Y coordinates start at the top and move downward (higher Y values = lower on screen)
+    skipRegions: list[tuple] = [
+        (200, 230, screenShotWidth, screenShotHeight)
+    ]
+
     # Autoaim mouse movement amplifier
     aaMovementAmp = .8
 
@@ -141,8 +150,25 @@ def main():
                     s += f"{n} {int(c)}, "  # add to string
 
                 for *xyxy, conf, cls in reversed(det):
-                    targets.append((xyxy2xywh(torch.tensor(xyxy).view(
-                        1, 4)) / gn).view(-1).tolist() + [float(conf)])  # normalized xywh
+                    # normalized xywh
+                    detTensorScreenCoords = (xyxy2xywh(torch.tensor(xyxy).view(
+                        1, 4)) / gn).view(-1)
+                    detScreenCoords = (
+                        detTensorScreenCoords.tolist() + [float(conf)])
+                    isSkipped = False
+                    for skipRegion in skipRegions:
+                        # TODO check logic. there are some rare edge cases.
+                        # if min and max are both within the min and max of the other, then we are fully within it
+                        detectionWithinSkipRegion = ((xyxy[0] >= skipRegion[0] and xyxy[2] <= skipRegion[2])
+                                                     and (xyxy[1] >= skipRegion[1] and xyxy[3] <= skipRegion[3]))
+                        # if above top edge, to the right of right edge, below bottom edge, or left of left edge, then there can be no intersection
+                        detectionIntersectsSkipRegion = not (
+                            xyxy[0] > skipRegion[2] or xyxy[2] < skipRegion[0] or xyxy[1] > skipRegion[3] or xyxy[1] < skipRegion[3])
+                        if detectionWithinSkipRegion or detectionIntersectsSkipRegion:
+                            isSkipped = True
+                            break
+                    if isSkipped == False:
+                        targets.append(detScreenCoords)
 
         targets = pd.DataFrame(
             targets, columns=['current_mid_x', 'current_mid_y', 'width', "height", "confidence"])
@@ -200,6 +226,9 @@ def main():
                 y = startY - 15 if startY - 15 > 15 else startY + 15
                 cv2.putText(cap, label, (startX, y),
                             cv2.FONT_HERSHEY_SIMPLEX, 0.5, COLORS[idx], 2)
+            for skipRegion in skipRegions:
+                cv2.rectangle(cap, (skipRegion[0], skipRegion[1]), (skipRegion[2],
+                                                                    skipRegion[3]), (0, 0, 0), 2)
 
         # Forced garbage cleanup every second
         count += 1
