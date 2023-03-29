@@ -97,7 +97,7 @@ def main():
     so = ort.SessionOptions()
     so.graph_optimization_level = ort.GraphOptimizationLevel.ORT_ENABLE_ALL
     ort_sess = ort.InferenceSession('yolov5s320.onnx', sess_options=so, providers=[
-                                    'CUDAExecutionProvider'])
+                                    'CPUExecutionProvider'])
 
     # Used for colors drawn on bounding boxes
     COLORS = np.random.uniform(0, 255, size=(1500, 3))
@@ -135,7 +135,7 @@ def main():
 
                 for *xyxy, conf, cls in reversed(det):
                     targets.append((xyxy2xywh(torch.tensor(xyxy).view(
-                            1, 4)) / gn).view(-1).tolist() + [float(conf)])  # normalized xywh
+                        1, 4)) / gn).view(-1).tolist() + [float(conf)])  # normalized xywh
 
         targets = pd.DataFrame(
             targets, columns=['current_mid_x', 'current_mid_y', 'width', "height", "confidence"])
@@ -185,7 +185,8 @@ def main():
 
                 idx = 0
                 # draw the bounding box and label on the frame
-                label = "{}: {:.2f}%".format("Human", targets["confidence"][i] * 100)
+                label = "{}: {:.2f}%".format(
+                    "Human", targets["confidence"][i] * 100)
                 cv2.rectangle(npImg, (startX, startY), (endX, endY),
                               COLORS[idx], 2)
                 y = startY - 15 if startY - 15 > 15 else startY + 15

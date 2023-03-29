@@ -140,10 +140,10 @@ def main():
                     for *xyxy, conf, cls in reversed(det):
                         targets.append((xyxy2xywh(torch.tensor(xyxy).view(
                             1, 4)) / gn).view(-1).tolist() + [float(conf)])  # normalized xywh
-                        
+
             targets = pd.DataFrame(
                 targets, columns=['current_mid_x', 'current_mid_y', 'width', "height", "confidence"])
-            
+
             # If there are people in the center bounding box
             if len(targets) > 0:
                 # Get the last persons mid coordinate if it exists
@@ -190,7 +190,8 @@ def main():
                     idx = 0
 
                     # draw the bounding box and label on the frame
-                    label = "{}: {:.2f}%".format("Human", targets["confidence"][i] * 100)
+                    label = "{}: {:.2f}%".format(
+                        "Human", targets["confidence"][i] * 100)
                     cv2.rectangle(npImg, (startX, startY), (endX, endY),
                                   COLORS[idx], 2)
                     y = startY - 15 if startY - 15 > 15 else startY + 15
