@@ -116,7 +116,7 @@ def main():
         if len(im.shape) == 3:
             im = im[None]
 
-        outputs = ort_sess.run(None, {'images': im})
+        outputs = ort_sess.run(None, {'images': np.array(im)})
 
         im = torch.from_numpy(outputs[0]).to('cpu')
 
