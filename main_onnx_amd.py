@@ -1,6 +1,7 @@
 import onnxruntime as ort
 import numpy as np
 import pyautogui
+import pygetwindow
 import gc
 import numpy as np
 import cv2
@@ -15,9 +16,6 @@ import torch_directml
 
 
 def main():
-    # Window title to go after and the height of the screenshots
-    videoGameWindowTitle = "Counter"
-
     # Portion of screen to be captured (This forms a square/rectangle around the center of screen)
     screenShotHeight = 320
     screenShotWidth = 320
@@ -55,20 +53,50 @@ def main():
 
     # Selecting the correct game window
     try:
-        videoGameWindows = pyautogui.getWindowsWithTitle(videoGameWindowTitle)
-        videoGameWindow = videoGameWindows[0]
-    except:
-        print("The game window you are trying to select doesn't exist.")
-        print("Check variable videoGameWindowTitle (typically on line 13")
-        exit()
-
-    # Select that Window
-    try:
-        videoGameWindow.activate()
+        videoGameWindows = pygetwindow.getAllWindows()
+        print("=== All Windows ===")
+        for index, window in enumerate(videoGameWindows):
+            # only output the window if it has a meaningful title
+            if window.title != "":
+                print("[{}]: {}".format(index, window.title))
+        # have the user select the window they want
+        try:
+            userInput = int(input(
+                "Please enter the number corresponding to the window you'd like to select: "))
+        except ValueError:
+            print("You didn't enter a valid number. Please try again.")
+            return
+        # "save" that window as the chosen window for the rest of the script
+        videoGameWindow = videoGameWindows[userInput]
     except Exception as e:
-        print("Failed to activate game window: {}".format(str(e)))
-        print("Read the relevant restrictions here: https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-setforegroundwindow")
+        print("Failed to select game window: {}".format(e))
         return
+
+    # Activate that Window
+    activationRetries = 30
+    activationSuccess = False
+    while (activationRetries > 0):
+        try:
+            videoGameWindow.activate()
+            activationSuccess = True
+            break
+        except pygetwindow.PyGetWindowException as we:
+            print("Failed to activate game window: {}".format(str(we)))
+            print("Trying again... (you should switch to the game now)")
+        except Exception as e:
+            print("Failed to activate game window: {}".format(str(e)))
+            print("Read the relevant restrictions here: https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-setforegroundwindow")
+            activationSuccess = False
+            activationRetries = 0
+            break
+        # wait a little bit before the next try
+        time.sleep(3.0)
+        activationRetries = activationRetries - 1
+    # if we failed to activate the window then we'll be unable to send input to it
+    # so just exit the script now
+    if activationSuccess == False:
+        return
+    print("Successfully activated the game window...")
 
     # Setting up the screen shots
     sctArea = {"mon": 1, "top": videoGameWindow.top + (videoGameWindow.height - screenShotHeight) // 2,

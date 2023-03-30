@@ -1,4 +1,6 @@
 PyAutoGUI
+# should be auto-installed by pyautogui, but just in case...
+PyGetWindow
 opencv-python
 numpy==1.23
 pandas
