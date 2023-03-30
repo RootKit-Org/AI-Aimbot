@@ -1,8 +1,5 @@
 PyAutoGUI
-PyDirectInput
-Pillow
 opencv-python
-mss
 numpy==1.23
 pandas
 pywin32

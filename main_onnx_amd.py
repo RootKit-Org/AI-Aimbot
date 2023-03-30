@@ -26,6 +26,15 @@ def main():
     # EXAMPLE: Fortnite and New World
     aaRightShift = 0
 
+    # An alternative to aaRightShift
+    # Mark regions of the screen where your own player character is
+    # This will often prevent the mouse from drifting to an edge of the screen
+    # Format is (minX, minY, maxX, maxY) to form a rectangle
+    # Remember, Y coordinates start at the top and move downward (higher Y values = lower on screen)
+    skipRegions: list[tuple] = [
+        (200, 230, screenShotWidth, screenShotHeight)
+    ]
+
     # Autoaim mouse movement amplifier
     aaMovementAmp = .8
 
@@ -85,6 +94,14 @@ def main():
         return
     camera.start(target_fps=160, video_mode=True)
 
+    if visuals == True:
+        # Create and Position the Live Feed window to the left of the game window
+        cv2WindowName = 'Live Feed'
+        cv2.namedWindow(cv2WindowName)
+        visualsXPos = videoGameWindow.left - screenShotWidth - 5
+        cv2.moveWindow(cv2WindowName, (visualsXPos if visualsXPos >
+                       0 else 0), videoGameWindow.top)
+
     # Calculating the center Autoaim box
     cWidth = sctArea["width"] / 2
     cHeight = sctArea["height"] / 2
@@ -95,6 +112,7 @@ def main():
 
     so = ort.SessionOptions()
     so.graph_optimization_level = ort.GraphOptimizationLevel.ORT_ENABLE_ALL
+    so.enable_mem_pattern = False
     ort_sess = ort.InferenceSession('yolov5s320.onnx', sess_options=so, providers=[
                                     'DmlExecutionProvider'])
 
@@ -106,23 +124,22 @@ def main():
     while win32api.GetAsyncKeyState(ord(aaQuitKey)) == 0:
 
         # Getting Frame
-        npImg = np.array(camera.get_latest_frame())
+        cap = camera.get_latest_frame()
+        if cap is None:
+            continue
 
         # Normalizing Data
-        im = torch.from_numpy(npImg)
-        im = torch.movedim(im, 2, 0)
-        im = im.half()
-        im /= 255
-        if len(im.shape) == 3:
-            im = im[None]
+        npImg = np.array([cap]) / 255
+        npImg = npImg.astype(np.half)
+        npImg = np.moveaxis(npImg, 3, 1)
 
-        outputs = ort_sess.run(None, {'images': np.array(im)})
-
+        # Run ML Inference
+        outputs = ort_sess.run(None, {'images': np.array(npImg)})
         im = torch.from_numpy(outputs[0]).to('cpu')
-
         pred = non_max_suppression(
             im, confidence, confidence, 0, False, max_det=10)
 
+        # Get targets from ML predictions
         targets = []
         for i, det in enumerate(pred):
             s = ""
@@ -133,8 +150,25 @@ def main():
                     s += f"{n} {int(c)}, "  # add to string
 
                 for *xyxy, conf, cls in reversed(det):
-                    targets.append((xyxy2xywh(torch.tensor(xyxy).view(
-                            1, 4)) / gn).view(-1).tolist() + [float(conf)])  # normalized xywh
+                    # normalized xywh
+                    detTensorScreenCoords = (xyxy2xywh(torch.tensor(xyxy).view(
+                        1, 4)) / gn).view(-1)
+                    detScreenCoords = (
+                        detTensorScreenCoords.tolist() + [float(conf)])
+                    isSkipped = False
+                    for skipRegion in skipRegions:
+                        # TODO check logic. there are some rare edge cases.
+                        # if min and max are both within the min and max of the other, then we are fully within it
+                        detectionWithinSkipRegion = ((xyxy[0] >= skipRegion[0] and xyxy[2] <= skipRegion[2])
+                                                     and (xyxy[1] >= skipRegion[1] and xyxy[3] <= skipRegion[3]))
+                        # if above top edge, to the right of right edge, below bottom edge, or left of left edge, then there can be no intersection
+                        detectionIntersectsSkipRegion = not (
+                            xyxy[0] > skipRegion[2] or xyxy[2] < skipRegion[0] or xyxy[1] > skipRegion[3] or xyxy[1] < skipRegion[3])
+                        if detectionWithinSkipRegion or detectionIntersectsSkipRegion:
+                            isSkipped = True
+                            break
+                    if isSkipped == False:
+                        targets.append(detScreenCoords)
 
         targets = pd.DataFrame(
             targets, columns=['current_mid_x', 'current_mid_y', 'width', "height", "confidence"])
@@ -148,6 +182,7 @@ def main():
                 # Take distance between current person mid coordinate and last person mid coordinate
                 targets['dist'] = np.linalg.norm(
                     targets.iloc[:, [0, 1]].values - targets.iloc[:, [4, 5]], axis=1)
+                # This ensures the person closest to the crosshairs is the one that's targeted
                 targets.sort_values(by="dist", ascending=False)
 
             # Take the first person that shows up in the dataframe (Recall that we sort based on Euclidean distance)
@@ -184,12 +219,16 @@ def main():
 
                 idx = 0
                 # draw the bounding box and label on the frame
-                label = "{}: {:.2f}%".format("Human", targets["confidence"][i] * 100)
-                cv2.rectangle(npImg, (startX, startY), (endX, endY),
+                label = "{}: {:.2f}%".format(
+                    "Human", targets["confidence"][i] * 100)
+                cv2.rectangle(cap, (startX, startY), (endX, endY),
                               COLORS[idx], 2)
                 y = startY - 15 if startY - 15 > 15 else startY + 15
-                cv2.putText(npImg, label, (startX, y),
+                cv2.putText(cap, label, (startX, y),
                             cv2.FONT_HERSHEY_SIMPLEX, 0.5, COLORS[idx], 2)
+            for skipRegion in skipRegions:
+                cv2.rectangle(cap, (skipRegion[0], skipRegion[1]), (skipRegion[2],
+                                                                    skipRegion[3]), (0, 0, 0), 2)
 
         # Forced garbage cleanup every second
         count += 1
@@ -204,8 +243,9 @@ def main():
 
         # See visually what the Aimbot sees
         if visuals:
-            cv2.imshow('Live Feed', npImg)
+            cv2.imshow(cv2WindowName, cap)
             if (cv2.waitKey(1) & 0xFF) == ord('q'):
+                cv2.destroyAllWindows()
                 exit()
     camera.stop()
 
@@ -219,3 +259,4 @@ if __name__ == "__main__":
         traceback.print_exception(e)
         print(str(e))
         print("Please read the above message and think about how it could be solved before posting it on discord.")
+    cv2.destroyAllWindows()

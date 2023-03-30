@@ -1,0 +1,11 @@
+dxcam
+numpy==1.23.0
+onnxruntime_directml
+opencv_python
+pandas
+PyAutoGUI
+pywin32
+torch_directml
+# below is due to the scripts in the utils folder
+pyyaml
+matplotlib

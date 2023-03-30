@@ -187,7 +187,8 @@ def main():
 
                     idx = 0
                     # draw the bounding box and label on the frame
-                    label = "{}: {:.2f}%".format("Human", targets["confidence"][i] * 100)
+                    label = "{}: {:.2f}%".format(
+                        "Human", targets["confidence"][i] * 100)
                     cv2.rectangle(npImg, (startX, startY), (endX, endY),
                                   COLORS[idx], 2)
                     y = startY - 15 if startY - 15 > 15 else startY + 15
