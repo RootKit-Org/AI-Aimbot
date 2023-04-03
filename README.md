@@ -100,9 +100,9 @@ If you are comfortable with your skills, you can run the other 4 versions. You c
 
 `main_onnx_cpu.py` is for those of you who don't have a nvidia CPU. It will be optimized for CPU based compute. You need to `pip install onnxruntime`.
 
-`main_onnx_nvidia.py` will give you up to a 100% performance boost. You will need to pip install `onnxruntime-gpu`.
+`main_onnx_nvidia.py` will give you up to a 100% performance boost. You will need to pip install `pip install onnxruntime-gpu`.
 
-`main_onnx_amd.py` will give you up to a 100% performance boost. You will need to pip install `onnxruntime-directml`.
+`main_onnx_amd.py` will give you up to a 100% performance boost. You will need to run `pip install -r requirements_onnx_amd.txt`.
 
 `main_tensorrt_gpu.py` is the BEST. It gives over a 200% performance boost. 
 #### **TensorRT Setup help**
