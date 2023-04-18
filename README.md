@@ -53,7 +53,7 @@ Splitgate (discovered by ˞˞˞˞˞˞˞˞˞˞˞˞˞˞˞˞˞˞#2373 on discord 06
 *Default settings are good for most use cases. Read comments in code for more details.<br>
 **CAPS_LOCK is the default for toggling on and off the autoaim functionality**
 
-`videoGameWindowTitle` - (CHANGES PER GAME) Window title of the game you want to play. Does not need to be the complete window title.
+`videoGameWindowTitle` - (Legacy) Window title of the game you want to play. Does not need to be the complete window title.
 
 `aaRightShift` - May need to be changed in 3rd person games like Fortnite and New World. Typically `100` or `150` will be sufficient.
 
@@ -166,12 +166,19 @@ We are a community based nonprofit. We are always open to pull requests on any o
 **We are always looking for new Volunteers to join our Champions!
 If you have any ideas for videos or programs, let us know!**
 
+### Custom Aimbots
+If you have some new functionality you have added to the bot you would like to show off and have people learn from, put it in here and send a Pull Request!
+
+Just add a folder to the `customScripts` folder with your github name and inside put your all your code and a `readme.md` explaining what they are and what they do.
+
+For an example, look at the `example-user` folder in `customScripts`.
+
 ### Custom Models
 If you trained your own model, then submit a PR with it!
 
-Just add a folder to the `custom` folder with your github name and inside put your `model(s)` and a `readme.md` explaining what they are and how you made them.
+Just add a folder to the `customModels` folder with your github name and inside put your `model(s)` and a `readme.md` explaining what they are and how you made them.
 
-For an example, look at the `example-user` folder in `custom`.
+For an example, look at the `example-user` folder in `customModels`.
 
 Another view of the layout - 
 
@@ -180,3 +187,4 @@ Another view of the layout -
   exampleUsername/
     model_general.pt
     readme.md
+
