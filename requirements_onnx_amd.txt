@@ -8,6 +8,7 @@ PyAutoGUI
 PyGetWindow
 pywin32
 torch_directml
+torch==2.0.1
 # below is due to the scripts in the utils folder
 pyyaml
 matplotlib
