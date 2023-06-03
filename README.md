@@ -1,4 +1,4 @@
-[![Pull Requests Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat)](http://makeapullrequest.com)
+﻿[![Pull Requests Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat)](http://makeapullrequest.com)
 # AI Aimbot - Massive Update
 
 <p float="left">
@@ -21,6 +21,7 @@
     - [Run](#run)
   - [Community Based](#community-based)
     - [Add your own Model](#custom-models)
+    - [Future Ideas](#future-ideas )
 
 ## Intro
 AI Aimbot works in any game with humanoid characters and utilizes YOLOv5 (ultralytics/yolov5). Mouse movements don't work in Valorant currently. It is currently 100% undetectable to anti-cheat systems due to it being visual-only in nature. You could be found cheating if you are manually reported by another player and your game is reviewed manually due to the botty looking aimming of an Aimbot.
@@ -38,16 +39,17 @@ Code is all in 1 file for easy of viewing and learning from.
 Watch the tutorial video! - https://www.youtube.com/watch?v=TCJHLbbeLhg<br />
 Watch the shorts video! - https://youtu.be/EEgspHlU_H0
 
-Watch the live stream explainer - https://www.youtube.com/watch?v=uniL5yR7y0M&ab_channel=RootKit<br />
+Watch the live stream explainer - [https://www.youtube.com/RootKit](https://www.youtube.com/watch?v=uniL5yR7y0M&ab_channel=RootKit)<br />
 Watch the pre-setup tutorial - Coming soon...<br />
 Watch the main setup/run tutorial - Comming soon...<br />
 Watch the onnx setup/run tutorial - Comming soon...<br />
 Watch the tensorrt setup/run tutorial - Comming soon...
 
-Join teh Discord - https://discord.gg/rootkitorg
+Join teh Discord - [discord.gg/rootkitorg](https://discord.gg/rootkitorg)
 
 ## Known games that can identify it as a cheat
 Splitgate (discovered by ˞˞˞˞˞˞˞˞˞˞˞˞˞˞˞˞˞˞#2373 on discord 06/20/22)
+EQU8 Detects win32 library for mouse movement
 
 ## Configurable Settings
 *Default settings are good for most use cases. Read comments in code for more details.<br>
@@ -77,11 +79,11 @@ Splitgate (discovered by ˞˞˞˞˞˞˞˞˞˞˞˞˞˞˞˞˞˞#2373 on discord 06
 
 ## Current Stats
 This bot's speed is VERY dependent on your hardware. We will update the model it uses for detection later with a faster one.
-
 Bot was tested on a:
-- AMD Ryzen 7 2700
-- 64 GB DDR4
-- Nvidia RTX 2080
+
+    - AMD Ryzen 7 2700
+    - 64 GB DDR4
+    - Nvidia RTX 2080
 
 We got anywhere from 15-60 corrections per second depending on the version used. All games were ran at 1920x1080 or close to it when testing.
 
@@ -102,7 +104,7 @@ If you are comfortable with your skills, you can run the other 4 versions. You c
 
 `main_onnx_nvidia.py` will give you up to a 100% performance boost. You will need to pip install `pip install onnxruntime-gpu`.
 
-`main_onnx_amd.py` will give you up to a 100% performance boost. You will need to run `pip install -r requirements_onnx_amd.txt`.
+`main_onnx_amd.py` will give you up to a 100% performance boost. You will need to run `pip install -r requirements_onnx_amd.txt`. 
 
 `main_tensorrt_gpu.py` is the BEST. It gives over a 200% performance boost. 
 #### **TensorRT Setup help**
@@ -187,4 +189,13 @@ Another view of the layout -
   exampleUsername/
     model_general.pt
     readme.md
+```
+### Future Ideas    
+
+ - [ ] Config File Instead of hardcoded values
+
+ 
+
+ 
+
 
