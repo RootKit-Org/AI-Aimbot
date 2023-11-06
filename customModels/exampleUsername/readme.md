@@ -8,5 +8,5 @@ Tell the community about your model
 - How many models do you have?
 - 2
 - Are they for pytorch, onnx, tensorrt, something else?
-- pytorch, onnx, tensorrt
+- onnx, tensorrt
 - Any set up info
