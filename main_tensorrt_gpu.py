@@ -42,6 +42,9 @@ def main():
     # Set to True if you want to get the visuals
     visuals = False
 
+    # Set to True if you want to move to the target closest to the center of your screen
+    centerOfScreen = True
+
     # Selecting the correct game window
     try:
         videoGameWindows = pygetwindow.getAllWindows()
@@ -168,9 +171,18 @@ def main():
 
             targets = pd.DataFrame(
                 targets, columns=['current_mid_x', 'current_mid_y', 'width', "height", "confidence"])
+            
+            center_screen = [cWidth, cHeight]
 
             # If there are people in the center bounding box
             if len(targets) > 0:
+                if (centerOfScreen):
+                    # Compute the distance from the center
+                    targets["dist_from_center"] = np.sqrt((targets.current_mid_x - center_screen[0])**2 + (targets.current_mid_y - center_screen[1])**2)
+
+                    # Sort the data frame by distance from center
+                    targets = targets.sort_values("dist_from_center")
+
                 # Get the last persons mid coordinate if it exists
                 if last_mid_coord:
                     targets['last_mid_x'] = last_mid_coord[0]
