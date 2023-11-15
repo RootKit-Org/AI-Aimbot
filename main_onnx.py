@@ -1,6 +1,5 @@
 import onnxruntime as ort
 import numpy as np
-import cupy as cp
 import gc
 import numpy as np
 import cv2
@@ -32,6 +31,7 @@ def main():
     elif onnxChoice == 2:
         onnxProvider = "DmlExecutionProvider"
     elif onnxChoice == 3:
+        import cupy as cp
         onnxProvider = "CUDAExecutionProvider"
 
     so = ort.SessionOptions()
