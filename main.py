@@ -1,133 +1,34 @@
-from unittest import result
 import torch
-import pyautogui
-import pygetwindow
-import gc
 import numpy as np
 import cv2
 import time
 import win32api
 import win32con
 import pandas as pd
+import gc
 from utils.general import (cv2, non_max_suppression, xyxy2xywh)
-import dxcam
 
+# Could be do with
+# from config import *
+# But we are writing it out for clarity for new devs
+from config import aaMovementAmp, aaRightShift, aaQuitKey, screenShotHeight, confidence, headshot_mode, cpsDisplay, visuals, centerOfScreen
+import gameSelection
 
 def main():
-    # Portion of screen to be captured (This forms a square/rectangle around the center of screen)
-    screenShotHeight = 320
-    screenShotWidth = 320
-
-    # For use in games that are 3rd person and character model interferes with the autoaim
-    # EXAMPLE: Fortnite and New World
-    aaRightShift = 0
-
-    # Autoaim mouse movement amplifier
-    aaMovementAmp = .8
-
-    # Person Class Confidence
-    confidence = 0.4
-
-    # What key to press to quit and shutdown the autoaim
-    aaQuitKey = "Q"
-
-    # If you want to main slightly upwards towards the head
-    headshot_mode = True
-
-    # Displays the Corrections per second in the terminal
-    cpsDisplay = True
-
-    # Set to True if you want to get the visuals
-    visuals = False
-
-    # Selecting the correct game window
-    try:
-        videoGameWindows = pygetwindow.getAllWindows()
-        print("=== All Windows ===")
-        for index, window in enumerate(videoGameWindows):
-            # only output the window if it has a meaningful title
-            if window.title != "":
-                print("[{}]: {}".format(index, window.title))
-        # have the user select the window they want
-        try:
-            userInput = int(input(
-                "Please enter the number corresponding to the window you'd like to select: "))
-        except ValueError:
-            print("You didn't enter a valid number. Please try again.")
-            return
-        # "save" that window as the chosen window for the rest of the script
-        videoGameWindow = videoGameWindows[userInput]
-    except Exception as e:
-        print("Failed to select game window: {}".format(e))
-        return
-
-    # Activate that Window
-    activationRetries = 30
-    activationSuccess = False
-    while (activationRetries > 0):
-        try:
-            videoGameWindow.activate()
-            activationSuccess = True
-            break
-        except pygetwindow.PyGetWindowException as we:
-            print("Failed to activate game window: {}".format(str(we)))
-            print("Trying again... (you should switch to the game now)")
-        except Exception as e:
-            print("Failed to activate game window: {}".format(str(e)))
-            print("Read the relevant restrictions here: https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-setforegroundwindow")
-            activationSuccess = False
-            activationRetries = 0
-            break
-        # wait a little bit before the next try
-        time.sleep(3.0)
-        activationRetries = activationRetries - 1
-    # if we failed to activate the window then we'll be unable to send input to it
-    # so just exit the script now
-    if activationSuccess == False:
-        return
-    print("Successfully activated the game window...")
-
-    # Setting up the screen shots
-    sctArea = {"mon": 1, "top": videoGameWindow.top + (videoGameWindow.height - screenShotHeight) // 2,
-                         "left": aaRightShift + ((videoGameWindow.left + videoGameWindow.right) // 2) - (screenShotWidth // 2),
-                         "width": screenShotWidth,
-                         "height": screenShotHeight}
-
-    #! Uncomment if you want to view the entire screen
-    # sctArea = {"mon": 1, "top": 0, "left": 0, "width": 1920, "height": 1080}
-
-    # Starting screenshoting engine
-    left = aaRightShift + \
-        ((videoGameWindow.left + videoGameWindow.right) // 2) - (screenShotWidth // 2)
-    top = videoGameWindow.top + \
-        (videoGameWindow.height - screenShotHeight) // 2
-    right, bottom = left + screenShotWidth, top + screenShotHeight
-
-    region = (left, top, right, bottom)
-
-    camera = dxcam.create(region=region)
-    if camera is None:
-        print("""DXCamera failed to initialize. Some common causes are:
-        1. You are on a laptop with both an integrated GPU and discrete GPU. Go into Windows Graphic Settings, select python.exe and set it to Power Saving Mode.
-         If that doesn't work, then read this: https://github.com/SerpentAI/D3DShot/wiki/Installation-Note:-Laptops
-        2. The game is an exclusive full screen game. Set it to windowed mode.""")
-        return
-    camera.start(target_fps=120, video_mode=True)
-
-    # Calculating the center Autoaim box
-    cWidth = sctArea["width"] / 2
-    cHeight = sctArea["height"] / 2
+    # External Function for running the game selection menu (gameSelection.py)
+    camera, cWidth, cHeight = gameSelection.gameSelection()
 
     # Used for forcing garbage collection
     count = 0
     sTime = time.time()
 
-    # Loading Yolo5 Small AI Model
+    # Loading Yolo5 Small AI Model, for better results use yolov5m or yolov5l
     model = torch.hub.load('ultralytics/yolov5', 'yolov5s',
                            pretrained=True, force_reload=True)
     stride, names, pt = model.stride, model.names, model.pt
 
-    model.half()
+    if torch.cuda.is_available():
+        model.half()
 
     # Used for colors drawn on bounding boxes
     COLORS = np.random.uniform(0, 255, size=(1500, 3))
@@ -142,9 +43,14 @@ def main():
 
             # Normalizing Data
             im = torch.from_numpy(npImg)
+            if im.shape[2] == 4:
+                # If the image has an alpha channel, remove it
+                im = im[:, :, :3,]
+
             im = torch.movedim(im, 2, 0)
-            im = im.half()
-            im /= 255
+            if torch.cuda.is_available():
+                im = im.half()
+                im /= 255
             if len(im.shape) == 3:
                 im = im[None]
 
@@ -172,8 +78,17 @@ def main():
             targets = pd.DataFrame(
                 targets, columns=['current_mid_x', 'current_mid_y', 'width', "height", "confidence"])
 
+            center_screen = [cWidth, cHeight]
+
             # If there are people in the center bounding box
             if len(targets) > 0:
+                if (centerOfScreen):
+                    # Compute the distance from the center
+                    targets["dist_from_center"] = np.sqrt((targets.current_mid_x - center_screen[0])**2 + (targets.current_mid_y - center_screen[1])**2)
+
+                    # Sort the data frame by distance from center
+                    targets = targets.sort_values("dist_from_center")
+
                 # Get the last persons mid coordinate if it exists
                 if last_mid_coord:
                     targets['last_mid_x'] = last_mid_coord[0]
@@ -250,7 +165,6 @@ if __name__ == "__main__":
         main()
     except Exception as e:
         import traceback
-        print("Please read the below message and think about how it could be solved before posting it on discord.")
         traceback.print_exception(e)
         print(str(e))
-        print("Please read the above message and think about how it could be solved before posting it on discord.")
+        print("Ask @Wonder for help in our Discord in the #ai-aimbot channel ONLY: https://discord.gg/rootkitorg")

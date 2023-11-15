@@ -4,7 +4,10 @@ test*
 *.torchscript
 *.engine
 onnxVer.py
-!yolov5s320.onnx
+!yolov5m320Half.onnx
+!yolov5s320Half.onnx
+!yolov5m320Half.engine
+!yolov5s320Half.engine
 yolov5s.engine
 yolov5
 tensorrt-8.4.1.5-cp39-none-win_amd64.whl
@@ -13,3 +16,4 @@ __pycache__
 utils/__pycache__
 models/__pycache__
 venv
+*.old

@@ -1,8 +1,7 @@
 PyAutoGUI
-# should be auto-installed by pyautogui, but just in case...
 PyGetWindow
 opencv-python
-numpy==1.23
+numpy
 pandas
 pywin32
 pyyaml
@@ -12,3 +11,6 @@ seaborn
 requests
 ipython
 psutil
+dxcam
+onnxruntime_directml
+git+https://github.com/RootKit-Org/BetterCam
