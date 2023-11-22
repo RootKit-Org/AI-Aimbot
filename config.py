@@ -22,7 +22,7 @@ headshot_mode = True
 cpsDisplay = True
 
 # Set to True if you want to get the visuals
-visuals = False
+visuals = True
 
 # Smarter selection of people
 centerOfScreen = True
@@ -31,4 +31,4 @@ centerOfScreen = True
 # 1 - CPU
 # 2 - AMD
 # 3 - NVIDIA
-onnxChoice = 3
+onnxChoice = 2

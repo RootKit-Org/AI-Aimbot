@@ -13,4 +13,4 @@ ipython
 psutil
 dxcam
 onnxruntime_directml
-git+https://github.com/RootKit-Org/BetterCam
+bettercam
