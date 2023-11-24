@@ -14,3 +14,10 @@ psutil
 dxcam
 onnxruntime_directml
 bettercam
+onnxsim
+openvino-dev
+x2paddle
+coremltools
+tensorflow
+tensorflowjs
+tflite_support
