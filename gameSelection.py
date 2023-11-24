@@ -7,7 +7,7 @@ import bettercam
 # But we are writing it out for clarity for new devs
 from config import aaRightShift, screenShotHeight, screenShotWidth
 
-def gameSelection() -> (bettercam.BetterCam, int, int | None):
+def gameSelection() -> (bettercam.BetterCam, int, int, None):
     # Selecting the correct game window
     try:
         videoGameWindows = pygetwindow.getAllWindows()
