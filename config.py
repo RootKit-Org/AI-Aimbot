@@ -3,11 +3,12 @@ screenShotHeight = 320
 screenShotWidth = 320
 
 # For use in games that are 3rd person and character model interferes with the autoaim
-# EXAMPLE: Fortnite and New World
-aaRightShift = 0
+useMask = False
+maskWidth = 80
+maskHeight = 200
 
 # Autoaim mouse movement amplifier
-aaMovementAmp = .4
+aaMovementAmp = .1
 
 # Person Class Confidence
 confidence = 0.4

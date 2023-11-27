@@ -5,7 +5,7 @@ import bettercam
 # Could be do with
 # from config import *
 # But we are writing it out for clarity for new devs
-from config import aaRightShift, screenShotHeight, screenShotWidth
+from config import screenShotHeight, screenShotWidth
 
 def gameSelection() -> (bettercam.BetterCam, int, int | None):
     # Selecting the correct game window
@@ -55,18 +55,8 @@ def gameSelection() -> (bettercam.BetterCam, int, int | None):
         return None
     print("Successfully activated the game window...")
 
-    # Setting up the screen shots
-    sctArea: dict[str, int] = {"mon": 1, "top": videoGameWindow.top + (videoGameWindow.height - screenShotHeight) // 2,
-                         "left": aaRightShift + ((videoGameWindow.left + videoGameWindow.right) // 2) - (screenShotWidth // 2),
-                         "width": screenShotWidth,
-                         "height": screenShotHeight}
-
-    #! Uncomment if you want to view the entire screen
-    # sctArea = {"mon": 1, "top": 0, "left": 0, "width": 1920, "height": 1080}
-
     # Starting screenshoting engine
-    left = aaRightShift + \
-        ((videoGameWindow.left + videoGameWindow.right) // 2) - (screenShotWidth // 2)
+    left = ((videoGameWindow.left + videoGameWindow.right) // 2) - (screenShotWidth // 2)
     top = videoGameWindow.top + \
         (videoGameWindow.height - screenShotHeight) // 2
     right, bottom = left + screenShotWidth, top + screenShotHeight
@@ -74,8 +64,10 @@ def gameSelection() -> (bettercam.BetterCam, int, int | None):
     region: tuple = (left, top, right, bottom)
 
     # Calculating the center Autoaim box
-    cWidth: int = sctArea["width"] / 2
-    cHeight: int = sctArea["height"] / 2
+    cWidth: int = screenShotWidth // 2
+    cHeight: int = screenShotHeight // 2
+
+    print(region)
 
     camera = bettercam.create(region=region, output_color="BGRA", max_buffer_len=512)
     if camera is None:

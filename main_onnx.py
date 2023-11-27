@@ -13,7 +13,7 @@ import torch
 # Could be do with
 # from config import *
 # But we are writing it out for clarity for new devs
-from config import aaMovementAmp, aaRightShift, aaQuitKey, confidence, headshot_mode, cpsDisplay, visuals, onnxChoice, centerOfScreen
+from config import aaMovementAmp, useMask, maskHeight, maskWidth, aaQuitKey, confidence, headshot_mode, cpsDisplay, visuals, onnxChoice, centerOfScreen
 import gameSelection
 
 def main():
@@ -48,6 +48,9 @@ def main():
 
         # Getting Frame
         npImg = np.array(camera.get_latest_frame())
+
+        if useMask:
+            npImg[-maskHeight:, :maskWidth, :] = 0
 
         # If Nvidia, do this
         if onnxChoice == 3:
@@ -122,7 +125,7 @@ def main():
                 targets.sort_values(by="dist", ascending=False)
 
             # Take the first person that shows up in the dataframe (Recall that we sort based on Euclidean distance)
-            xMid = targets.iloc[0].current_mid_x + aaRightShift
+            xMid = targets.iloc[0].current_mid_x
             yMid = targets.iloc[0].current_mid_y
 
             box_height = targets.iloc[0].height
