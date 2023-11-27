@@ -8,7 +8,7 @@ maskWidth = 80
 maskHeight = 200
 
 # Autoaim mouse movement amplifier
-aaMovementAmp = .1
+aaMovementAmp = .4
 
 # Person Class Confidence
 confidence = 0.4
