@@ -124,7 +124,11 @@ If you've followed these steps, you should be all set with TensorRT! ⚙️🚀
 *Default settings are generally great for most scenarios. Check out the comments in the code for more insights. 🔍 The configuration settings are now located in the `config.py` file!<br>
 **CAPS_LOCK is the default for flipping the switch on the autoaim superpower! ⚙️ 🎯**
 
-`aaRightShift` - Might need a tweak in 3rd person games like Fortnite and New World. 🎮 Typically, a setting of `100` or `150` should hit the mark. 🎯👌
+`useMask` - Set to `True` or `False` to turn on and off 🎭
+
+`maskWidth` - The width of the mask to use. Only used when `useMask` is `True` 📐
+
+`maskHeight` - The height of the mask to use. Only used when `useMask` is `True` 📐
 
 `aaQuitKey` - The go-to key is `q`, but if it clashes with your game style, swap it out! ⌨️♻️
 
