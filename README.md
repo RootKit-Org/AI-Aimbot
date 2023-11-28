@@ -23,6 +23,9 @@ Intended for educational use 🎓, our aim is to highlight the vulnerability of 
 - Faster 🏃‍♂️💨 - `main_onnx.py` ⚙️ May need to edit a file, Works on any computer 💻
 - Fastest 🚀 - `main_tensorrt.py` 🏢 Enterprise level hard, Works on computers with Nvidia GPUs only 🎮
 
+## Don't want to program? We got you
+If you join our [discord](https://discord.gg/rootkitorg) and become a support, you will have access to our all-in-one launcher.
+
 ## 🧰 Requirements
 - Nvidia RTX 980 🆙, higher or equivalent
 - And one of the following:
