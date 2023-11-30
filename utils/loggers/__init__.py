@@ -1,4 +1,4 @@
-# YOLOv5 🚀 by Ultralytics, GPL-3.0 license
+# YOLOv5 🚀 by Ultralytics, AGPL-3.0 license
 """
 Logging utils
 """
@@ -9,7 +9,6 @@ from pathlib import Path
 
 import pkg_resources as pkg
 import torch
-from torch.utils.tensorboard import SummaryWriter
 
 from utils.general import LOGGER, colorstr, cv2
 from utils.loggers.clearml.clearml_utils import ClearmlLogger
@@ -19,6 +18,11 @@ from utils.torch_utils import de_parallel
 
 LOGGERS = ('csv', 'tb', 'wandb', 'clearml', 'comet')  # *.csv, TensorBoard, Weights & Biases, ClearML
 RANK = int(os.getenv('RANK', -1))
+
+try:
+    from torch.utils.tensorboard import SummaryWriter
+except ImportError:
+    SummaryWriter = lambda *args: None  # None = SummaryWriter(str)
 
 try:
     import wandb
@@ -42,15 +46,15 @@ except (ImportError, AssertionError):
     clearml = None
 
 try:
-    if RANK not in [0, -1]:
-        comet_ml = None
-    else:
+    if RANK in {0, -1}:
         import comet_ml
 
         assert hasattr(comet_ml, '__version__')  # verify package import not local dir
         from utils.loggers.comet import CometLogger
 
-except (ModuleNotFoundError, ImportError, AssertionError):
+    else:
+        comet_ml = None
+except (ImportError, AssertionError):
     comet_ml = None
 
 
@@ -84,10 +88,6 @@ class Loggers():
         self.csv = True  # always log to csv
 
         # Messages
-        if not clearml:
-            prefix = colorstr('ClearML: ')
-            s = f"{prefix}run 'pip install clearml' to automatically track, visualize and remotely train YOLOv5 🚀 in ClearML"
-            self.logger.info(s)
         if not comet_ml:
             prefix = colorstr('Comet: ')
             s = f"{prefix}run 'pip install comet_ml' to automatically track and visualize YOLOv5 🚀 runs in Comet"
@@ -114,7 +114,7 @@ class Loggers():
                 self.clearml = None
                 prefix = colorstr('ClearML: ')
                 LOGGER.warning(f'{prefix}WARNING ⚠️ ClearML is installed but not configured, skipping ClearML logging.'
-                               f' See https://github.com/ultralytics/yolov5/tree/master/utils/loggers/clearml#readme')
+                               f' See https://docs.ultralytics.com/yolov5/tutorials/clearml_logging_integration#readme')
 
         else:
             self.clearml = None

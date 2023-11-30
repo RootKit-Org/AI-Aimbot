@@ -59,7 +59,7 @@ Check out an example of a [completed run here](https://www.comet.com/examples/co
 
 Or better yet, try it out yourself in this Colab Notebook
 
-[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1RG0WOQyxlDlo5Km8GogJpIEJlg_5lyYO?usp=sharing)
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/comet-ml/comet-examples/blob/master/integrations/model-training/yolov5/notebooks/Comet_and_YOLOv5.ipynb)
 
 # Log automatically
 
@@ -164,7 +164,7 @@ env COMET_LOG_PER_CLASS_METRICS=true python train.py \
 
 If you would like to store your data using [Comet Artifacts](https://www.comet.com/docs/v2/guides/data-management/using-artifacts/#learn-more?utm_source=yolov5&utm_medium=partner&utm_campaign=partner_yolov5_2022&utm_content=github), you can do so using the `upload_dataset` flag.
 
-The dataset be organized in the way described in the [YOLOv5 documentation](https://docs.ultralytics.com/tutorials/train-custom-datasets/#3-organize-directories). The dataset config `yaml` file must follow the same format as that of the `coco128.yaml` file.
+The dataset be organized in the way described in the [YOLOv5 documentation](https://docs.ultralytics.com/yolov5/tutorials/train_custom_data/). The dataset config `yaml` file must follow the same format as that of the `coco128.yaml` file.
 
 ```shell
 python train.py \

@@ -1,4 +1,4 @@
-# YOLOv5 🚀 by Ultralytics, GPL-3.0 license
+# YOLOv5 🚀 by Ultralytics, AGPL-3.0 license
 """
 utils/initialization
 """
@@ -54,13 +54,17 @@ def notebook_init(verbose=True):
     import os
     import shutil
 
-    from utils.general import check_font, check_requirements, is_colab
+    from ultralytics.utils.checks import check_requirements
+
+    from utils.general import check_font, is_colab
     from utils.torch_utils import select_device  # imports
 
     check_font()
 
     import psutil
 
+    if check_requirements('wandb', install=False):
+        os.system('pip uninstall -y wandb')  # eliminate unexpected account creation prompt with infinite hang
     if is_colab():
         shutil.rmtree('/content/sample_data', ignore_errors=True)  # remove colab /sample_data directory
 
