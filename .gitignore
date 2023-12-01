@@ -18,3 +18,4 @@ models/__pycache__
 venv
 *.old
 elite
+!Robloxmodel.pt
