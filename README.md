@@ -5,7 +5,10 @@
 [![Pull Requests Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat)](http://makeapullrequest.com)
 
 ## Don't want to program? We got you
-If you join our [discord](https://discord.gg/rootkitorg) and become a paid supporter or active volunteer, you will have access to our all-in-one launcher.
+Download our [Launcher](https://rootkitlauncher.s3.us-east-2.amazonaws.com/win32/x64/ai-aimbot-launcher-1.0.7+Setup.exe)
+If you join our and become a paid supporter or active volunteer, you will have access to all of the features.
+
+Join the discord to learn more about the Roadmap
 
 ## 🙌 Welcome Aboard!
 We're a charity on a mission to educate and certify the upcoming wave of developers in the world of Computer Engineering 🌍. Need assistance? Hop into our [Discord](https://discord.gg/rootkitorg) and toss your questions at `@Wonder` in the *#ai-aimbot channel* (be sure to stick to this channel or face the consequences! 😬). Type away your query and include `@Wonder` in there.
