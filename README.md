@@ -4,8 +4,8 @@
 
 [![Pull Requests Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat)](http://makeapullrequest.com)
 
-## Don't want to program? We got you
-Download our [AI Aimbot Launcher](https://rootkitlauncher.s3.us-east-2.amazonaws.com/win32/x64/ai-aimbot-launcher-1.0.8+Setup.exe). It is FREE.
+## Don't want to learn coding? You should, you aren't that stupid.
+Download our [AI Aimbot Launcher](https://rootkitlauncher.s3.us-east-2.amazonaws.com/win32/x64/ai-aimbot-launcher-1.0.8+Setup.exe). It is FREE. **No coding required.**
 
 Some features in the launcher may require you to be a volunteer or paid supporter.
 
