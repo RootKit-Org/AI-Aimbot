@@ -185,7 +185,7 @@ Show off your work or new models via Pull Requests in `customScripts` or `custom
 
 ## 🌠 Future Ideas
 
- - [ ] Mask Player to avoid false positives
+ - [x] Mask Player to avoid false positives
 
 
 Happy Coding and Aiming! 🎉👾
