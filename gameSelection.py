@@ -1,13 +1,14 @@
 import pygetwindow
 import time
 import bettercam
+from typing import Union
 
 # Could be do with
 # from config import *
 # But we are writing it out for clarity for new devs
 from config import screenShotHeight, screenShotWidth
 
-def gameSelection() -> (bettercam.BetterCam, int, int | None):
+def gameSelection() -> (bettercam.BetterCam, int, Union[int, None]):
     # Selecting the correct game window
     try:
         videoGameWindows = pygetwindow.getAllWindows()
