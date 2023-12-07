@@ -4,8 +4,12 @@
 
 [![Pull Requests Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat)](http://makeapullrequest.com)
 
-## Don't want to program? We got you
-If you join our [discord](https://discord.gg/rootkitorg) and become a paid supporter or active volunteer, you will have access to our all-in-one launcher.
+## Don't want to learn coding? You should, you aren't that stupid.
+Download our [AI Aimbot Launcher](https://rootkitlauncher.s3.us-east-2.amazonaws.com/win32/x64/ai-aimbot-launcher-1.0.8+Setup.exe). It is FREE. **No coding required.**
+
+Some features in the launcher may require you to be a volunteer or paid supporter.
+
+Join the discord to learn more about the Roadmap
 
 ## 🙌 Welcome Aboard!
 We're a charity on a mission to educate and certify the upcoming wave of developers in the world of Computer Engineering 🌍. Need assistance? Hop into our [Discord](https://discord.gg/rootkitorg) and toss your questions at `@Wonder` in the *#ai-aimbot channel* (be sure to stick to this channel or face the consequences! 😬). Type away your query and include `@Wonder` in there.
@@ -181,7 +185,7 @@ Show off your work or new models via Pull Requests in `customScripts` or `custom
 
 ## 🌠 Future Ideas
 
- - [ ] Mask Player to avoid false positives
+ - [x] Mask Player to avoid false positives
 
 
 Happy Coding and Aiming! 🎉👾
