@@ -92,29 +92,32 @@ Follow these sparkly steps to get your TensorRT ready for action! 🛠️✨
 5. **CUDNN Installation** 🧩
    Click to install [CUDNN 📥](https://developer.nvidia.com/downloads/compute/cudnn/secure/8.9.6/local_installers/11.x/cudnn-windows-x86_64-8.9.6.50_cuda11-archive.zip/). You'll need a Nvidia account to proceed. Don't worry it's free.
 
-6. **Get TensorRT 8.6 GA** 🔽
+6. **Unzip and Relocate** 📁➡️
+   Open the .zip CuDNN file and move all the folders/files to where the CUDA Toolkit is on your machine, usually at `C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v11.8`.
+
+7. **Get TensorRT 8.6 GA** 🔽
    Fetch [`TensorRT 8.6 GA 🛒`](https://developer.nvidia.com/downloads/compute/machine-learning/tensorrt/secure/8.6.1/zip/TensorRT-8.6.1.6.Windows10.x86_64.cuda-11.8.zip).
 
-7. **Unzip and Relocate** 📁➡️
+8. **Unzip and Relocate** 📁➡️
    Open the .zip TensorRT file and move all the folders/files to where the CUDA Toolkit is on your machine, usually at `C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v11.8`.
 
-8. **Python TensorRT Installation** 🎡
+9. **Python TensorRT Installation** 🎡
    Once you have all the files copied over, you should have a folder at `C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v11.8\python`. If you do, good, then run the following command to install TensorRT in python.
    ```
    pip install "C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v11.8\python\tensorrt-8.6.1-cp311-none-win_amd64.whl"
    ```
     🚨 If the following steps didn't work, don't stress out! 😅 The labeling of the files corresponds with the Python version you have installed on your machine. We're not looking for the 'lean' or 'dispatch' versions. 🔍 Just locate the correct file and replace the path with your new one. 🔄 You've got this! 💪
 
-9. **Set Your Environmental Variables** 🌎
+10. **Set Your Environmental Variables** 🌎
    Add these paths to your environment:
    - `C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v11.8\lib`
    - `C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v11.8\libnvvp`
    - `C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v11.8\bin`
 
-10. **Download Pre-trained Models** 🤖
+11. **Download Pre-trained Models** 🤖
    You can use one of the .engine models we supply. But if it doesn't work, then you will need to re-export it. Grab the `.pt` file here for the model you want. We recommend `yolov5s.py` or `yolov5m.py` [HERE 🔗](https://github.com/ultralytics/yolov5/releases/tag/v7.0).
 
-11. **Run the Export Script** 🏃‍♂️💻
+12. **Run the Export Script** 🏃‍♂️💻
    Time to execute `export.py` with the following command. Patience is key; it might look frozen, but it's just concentrating hard! Can take up to 20 mintues.
    
    ```
