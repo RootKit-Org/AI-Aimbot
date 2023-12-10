@@ -11,7 +11,7 @@ from models.common import DetectMultiBackend
 import cupy as cp
 import socket
 
-ip = '192.168.1.113' # raspberry board ip
+ip = '' # raspberry board ip
 port = 50123 # raspberry port
 client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 print(f'Connecting to {ip}:{port}...')
