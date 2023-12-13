@@ -13,7 +13,7 @@ import cupy as cp
 # Could be do with
 # from config import *
 # But we are writing it out for clarity for new devs
-from config import aaMovementAmp, useMask, maskHeight, maskWidth, aaQuitKey, confidence, headshot_mode, cpsDisplay, visuals, centerOfScreen
+from config import aaMovementAmp, useMask, maskHeight, maskWidth, aaQuitKey, confidence, headshot_mode, cpsDisplay, visuals, centerOfScreen, screenShotWidth
 import gameSelection
 
 def main():
@@ -43,7 +43,10 @@ def main():
                 npImg = npImg[:, :, :, :3]
 
             if useMask:
-                npImg[:, -maskHeight:, :maskWidth, :] = 0
+                if maskSide == "Right":
+                    npImg[-maskHeight:, (screenShotWidth - maskWidth):, :] = 0
+                elif maskSide == "Left":
+                    npImg[-maskHeight:, :maskWidth, :] = 0
 
             im = npImg / 255
             im = im.astype(cp.half)
