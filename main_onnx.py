@@ -13,7 +13,7 @@ import torch
 # Could be do with
 # from config import *
 # But we are writing it out for clarity for new devs
-from config import aaMovementAmp, useMask, maskHeight, maskWidth, aaQuitKey, confidence, headshot_mode, cpsDisplay, visuals, onnxChoice, centerOfScreen
+from config import aaMovementAmp, useMask, maskHeight, maskWidth, aaQuitKey, confidence, headshot_mode, cpsDisplay, visuals, onnxChoice, centerOfScreen, screenShotWidth
 import gameSelection
 
 def main():
@@ -50,7 +50,10 @@ def main():
         npImg = np.array(camera.get_latest_frame())
 
         if useMask:
-            npImg[-maskHeight:, :maskWidth, :] = 0
+            if maskSide == "Right":
+                npImg[-maskHeight:, (screenShotWidth - maskWidth):, :] = 0
+            elif maskSide == "Left":
+                npImg[-maskHeight:, :maskWidth, :] = 0
 
         # If Nvidia, do this
         if onnxChoice == 3:
