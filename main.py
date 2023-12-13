@@ -41,11 +41,11 @@ def main():
             # Getting Frame
             npImg = np.array(camera.get_latest_frame())
 
-        if useMask:
-            if maskSide == "Right":
-                npImg[-maskHeight:, (screenShotWidth - maskWidth):, :] = 0
-            elif maskSide == "Left":
-                npImg[-maskHeight:, :maskWidth, :] = 0
+            if useMask:
+                if maskSide == "Right":
+                    npImg[-maskHeight:, (screenShotWidth - maskWidth):, :] = 0
+                elif maskSide == "Left":
+                    npImg[-maskHeight:, :maskWidth, :] = 0
 
             # Normalizing Data
             im = torch.from_numpy(npImg)
