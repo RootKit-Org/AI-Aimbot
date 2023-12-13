@@ -11,7 +11,7 @@ from utils.general import (cv2, non_max_suppression, xyxy2xywh)
 # Could be do with
 # from config import *
 # But we are writing it out for clarity for new devs
-from config import aaMovementAmp, useMask, maskWidth, maskHeight, aaQuitKey, screenShotHeight, confidence, headshot_mode, cpsDisplay, visuals, centerOfScreen
+from config import aaMovementAmp, useMask, maskWidth, maskHeight, aaQuitKey, screenShotHeight, confidence, headshot_mode, cpsDisplay, visuals, centerOfScreen, screenShotWidth
 import gameSelection
 
 def main():
@@ -41,7 +41,10 @@ def main():
             # Getting Frame
             npImg = np.array(camera.get_latest_frame())
 
-            if useMask:
+        if useMask:
+            if maskSide == "Right":
+                npImg[-maskHeight:, (screenShotWidth - maskWidth):, :] = 0
+            elif maskSide == "Left":
                 npImg[-maskHeight:, :maskWidth, :] = 0
 
             # Normalizing Data
