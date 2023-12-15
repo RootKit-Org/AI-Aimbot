@@ -176,5 +176,5 @@ if __name__ == "__main__":
     except Exception as e:
         import traceback
         traceback.print_exception(e)
-        print(str(e))
+        print("ERROR: " + str(e))
         print("Ask @Wonder for help in our Discord in the #ai-aimbot channel ONLY: https://discord.gg/rootkitorg")

@@ -25,7 +25,7 @@ def main():
     sTime = time.time()
 
     # Loading Yolo5 Small AI Model
-    model = DetectMultiBackend('yolov5s320Half.engine', device=torch.device(
+    model = DetectMultiBackend('yolov5s.engine', device=torch.device(
         'cuda'), dnn=False, data='', fp16=True)
     stride, names, pt = model.stride, model.names, model.pt
 
@@ -168,5 +168,5 @@ if __name__ == "__main__":
     except Exception as e:
         import traceback
         traceback.print_exception(e)
-        print(str(e))
+        print("ERROR: " + str(e))
         print("Ask @Wonder for help in our Discord in the #ai-aimbot channel ONLY: https://discord.gg/rootkitorg")
