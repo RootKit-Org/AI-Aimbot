@@ -11,7 +11,7 @@ from utils.general import (cv2, non_max_suppression, xyxy2xywh)
 # Could be do with
 # from config import *
 # But we are writing it out for clarity for new devs
-from config import aaMovementAmp, useMask, maskWidth, maskHeight, aaQuitKey, screenShotHeight, confidence, headshot_mode, cpsDisplay, visuals, centerOfScreen, screenShotWidth
+from config import aaMovementAmp, useMask, maskWidth, maskHeight, aaQuitKey, screenShotHeight, confidence, headshot_mode, cpsDisplay, visuals, centerOfScreen
 import gameSelection
 
 def main():
@@ -41,11 +41,15 @@ def main():
             # Getting Frame
             npImg = np.array(camera.get_latest_frame())
 
+            from config import maskSide # "temporary" workaround for bad syntax
             if useMask:
-                if maskSide == "Right":
-                    npImg[-maskHeight:, (screenShotWidth - maskWidth):, :] = 0
-                elif maskSide == "Left":
+                maskSide = maskSide.lower()
+                if maskSide == "right":
+                    npImg[-maskHeight:, -maskWidth:, :] = 0
+                elif maskSide == "left":
                     npImg[-maskHeight:, :maskWidth, :] = 0
+                else:
+                    raise Exception('ERROR: Invalid maskSide! Please use "left" or "right"')
 
             # Normalizing Data
             im = torch.from_numpy(npImg)

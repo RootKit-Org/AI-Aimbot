@@ -32,7 +32,7 @@ def main():
     # Used for colors drawn on bounding boxes
     COLORS = np.random.uniform(0, 255, size=(1500, 3))
 
-    # Main loop Quit if Q is pressed
+    # Main loop Quit if exit key is pressed
     last_mid_coord = None
     with torch.no_grad():
         while win32api.GetAsyncKeyState(ord(aaQuitKey)) == 0:
@@ -42,11 +42,15 @@ def main():
                 # If the image has an alpha channel, remove it
                 npImg = npImg[:, :, :, :3]
 
+            from config import maskSide # "temporary" workaround for bad syntax
             if useMask:
-                if maskSide == "Right":
-                    npImg[-maskHeight:, (screenShotWidth - maskWidth):, :] = 0
-                elif maskSide == "Left":
-                    npImg[-maskHeight:, :maskWidth, :] = 0
+                maskSide = maskSide.lower()
+                if maskSide == "right":
+                    npImg[:, -maskHeight:, -maskWidth:, :] = 0
+                elif maskSide == "left":
+                    npImg[:, -maskHeight:, :maskWidth, :] = 0
+                else:
+                    raise Exception('ERROR: Invalid maskSide! Please use "left" or "right"')
 
             im = npImg / 255
             im = im.astype(cp.half)
