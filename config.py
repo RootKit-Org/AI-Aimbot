@@ -2,8 +2,9 @@
 screenShotHeight = 320
 screenShotWidth = 320
 
-# For use in games that are 3rd person and character model interferes with the autoaim
+# Use "left" or "right" for the mask side depending on where the interfering object is, useful for 3rd player models or large guns
 useMask = False
+maskSide = "left"
 maskWidth = 80
 maskHeight = 200
 
@@ -32,4 +33,4 @@ centerOfScreen = True
 # 1 - CPU
 # 2 - AMD
 # 3 - NVIDIA
-onnxChoice = 2
+onnxChoice = 1

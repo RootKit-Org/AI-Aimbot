@@ -49,8 +49,15 @@ def main():
         # Getting Frame
         npImg = np.array(camera.get_latest_frame())
 
+        from config import maskSide # "temporary" workaround for bad syntax
         if useMask:
-            npImg[-maskHeight:, :maskWidth, :] = 0
+            maskSide = maskSide.lower()
+            if maskSide == "right":
+                npImg[-maskHeight:, -maskWidth:, :] = 0
+            elif maskSide == "left":
+                npImg[-maskHeight:, :maskWidth, :] = 0
+            else:
+                raise Exception('ERROR: Invalid maskSide! Please use "left" or "right"')
 
         # If Nvidia, do this
         if onnxChoice == 3:
@@ -192,5 +199,5 @@ if __name__ == "__main__":
     except Exception as e:
         import traceback
         traceback.print_exception(e)
-        print(str(e))
-        print("Ask @Wonder for help in our Discord in the #ai-aimbot channel ONLY: https://discord.gg/rootkitorg")
+        print("ERROR: " + str(e))
+        print("Ask @Wonder for help in our Discord in the #ai-aimbot channel ONLY: https://discord.gg/rootkitorg")  
