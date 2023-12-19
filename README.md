@@ -4,8 +4,10 @@
 
 [![Pull Requests Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat)](http://makeapullrequest.com)
 
-## Don't want to learn coding? You should, you aren't that stupid.
+## BEST EXPERIENCE, Use our Launcher and the Launcher Custom Code Pack!
 Download our [AI Aimbot Launcher](https://github.com/RootKit-Org/Launcher). It is FREE. **No coding required.**
+
+It will auto-setup everything for you!
 
 Some features in the launcher may require you to be a volunteer or paid supporter.
 
