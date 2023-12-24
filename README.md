@@ -7,6 +7,8 @@
 ## ✨BEST EXPERIENCE, Use our Launcher and the Launcher Custom Code Pack!✨
 Download the [RootKit Launcher](https://github.com/RootKit-Org/Launcher). It is FREE. **No coding required.**
 
+Over 1,400 users use the Launcher
+
 It will auto-setup everything for you!
 
 Want to make your own bot? Then use the [Starter Code Pack](https://github.com/RootKit-Org/AI-Aimbot-Starter-Code)!
