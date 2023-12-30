@@ -7,7 +7,7 @@
 ## ✨BEST EXPERIENCE, Use our Launcher and the Launcher Custom Code Pack!✨
 Download the [RootKit Launcher](https://github.com/RootKit-Org/Launcher). It is FREE. **No coding required.**
 
-Over 2,100 users use the Launcher
+Over 2,300 users use the Launcher
 
 It will auto-setup everything for you!
 
