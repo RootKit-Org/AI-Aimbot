@@ -5,7 +5,7 @@
 [![Pull Requests Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat)](http://makeapullrequest.com)
 
 ## ✨BEST EXPERIENCE, Use our Launcher and the Launcher Custom Code Pack!✨
-### Over 2,700 users use the Launcher
+### Over 3,100 users use the Launcher
 
 Download the [RootKit Launcher](https://github.com/RootKit-Org/Launcher). It is FREE. **No coding required.**
 
