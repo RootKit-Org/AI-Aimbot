@@ -2,4 +2,4 @@
 
 switched aimkey to RMB
 
-added scrollock as a togle key
+added scrollock as a toggle key
