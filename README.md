@@ -127,7 +127,7 @@ Follow these sparkly steps to get your TensorRT ready for action! 🛠️✨
    You can use one of the .engine models we supply. But if it doesn't work, then you will need to re-export it. Grab the `.pt` file here for the model you want. We recommend `yolov5s.py` or `yolov5m.py` [HERE 🔗](https://github.com/ultralytics/yolov5/releases/tag/v7.0).
 
 12. **Run the Export Script** 🏃‍♂️💻
-   Time to execute `export.py` with the following command. Patience is key; it might look frozen, but it's just concentrating hard! Can take up to 20 mintues.
+   Time to execute `export.py` with the following command. Patience is key; it might look frozen, but it's just concentrating hard! Can take up to 20 minutes.
    
    ```
    python .\export.py --weights ./yolov5s.pt --include engine --half --imgsz 320 320 --device 0
