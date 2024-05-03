@@ -1,7 +1,7 @@
 # Performance optimizations
 
 This version aimes to achieve the best performance possible on AMD hardware.
-To achieve this, the script acts more as an aim assist insted of a full fledged aimbot.
+To achieve this, the script acts more as an aim assist instead of a full fledged aimbot.
 The user will still need to do most on the aim
 
 Changes that have been made:

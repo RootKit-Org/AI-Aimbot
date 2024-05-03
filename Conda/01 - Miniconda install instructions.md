@@ -43,6 +43,6 @@ conda update conda
 
 That's it! You have successfully installed Miniconda on your system.
 
-Now when you open up a terminal you should see a prompt and (base) to indicate no conda enviroment is active.
+Now when you open up a terminal you should see a prompt and (base) to indicate no conda environment is active.
 
 ![Your console](imgs/console.jpg)

@@ -68,7 +68,7 @@ Run information streams from your environment to the W&B cloud console as you tr
 You can leverage W&B artifacts and Tables integration to easily visualize and manage your datasets, models and training evaluations. Here are some quick examples to get you started.
 
 <details open>
- <h3> 1: Train and Log Evaluation simultaneousy </h3>
+ <h3> 1: Train and Log Evaluation simultaneously </h3>
    This is an extension of the previous section, but it'll also training after uploading the dataset. <b> This also evaluation Table</b>
    Evaluation table compares your predictions and ground truths across the validation set for each epoch. It uses the references to the already uploaded datasets,
    so no images will be uploaded from your system more than once.
@@ -102,7 +102,7 @@ You can leverage W&B artifacts and Tables integration to easily visualize and ma
 </details>
 
 <h3> 4: Save model checkpoints as artifacts </h3>
-  To enable saving and versioning checkpoints of your experiment, pass `--save_period n` with the base cammand, where `n` represents checkpoint interval.
+  To enable saving and versioning checkpoints of your experiment, pass `--save_period n` with the base command, where `n` represents checkpoint interval.
   You can also log both the dataset and model checkpoints simultaneously. If not passed, only the final model will be logged
 
 <details>
