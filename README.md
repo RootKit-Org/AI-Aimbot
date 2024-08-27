@@ -8,7 +8,7 @@
 ### Over 10,000 users use the Launcher
 
 ### 🔴 LIVE: Aimbot Internation 2024 - Win $1,000s
-Prepare your custom code and submit it for the aimbot internation which ends later this year. Work alone or solo. Check out the following videos to learn more.
+Prepare your custom code and submit it for the aimbot internation which ends later this year. Work alone or with friends. Check out the following videos to learn more.
 
 All custom code must be submitting thru the launcher.
 https://youtube.com/live/mtV6w2qhaNs?feature=share
