@@ -1,0 +1,137 @@
+{
+    "name": "RootKit Aimbot Settings",
+    "groups": [
+      {
+        "name": "Basic Settings",
+        "description": "Explore and customize!",
+        "default": false,
+        "tierLock": 0,
+        "items": [
+          {
+            "name": "Mouse Movement Amplifier",
+            "description": "",
+            "default": 0.4,
+            "tierLock": 0,
+            "type": "int",
+            "min": 0.1,
+            "max": 1,
+            "step": 0.1,
+            "value": 0
+          },
+          {
+            "name": "Confidence",
+            "description": "",
+            "default": 0.4,
+            "tierLock": 0,
+            "type": "int",
+            "min": 0.1,
+            "max": 1,
+            "step": 0.1,
+            "value": 0
+          },
+          {
+            "name": "Display CPS",
+            "description": "",
+            "default": true,
+            "tierLock": 0,
+            "value": false
+          },
+          {
+            "name": "Display Visuals",
+            "description": "TURN OFF WHEN USING. Good for debuging, Display visuals such as the aimbot's target and the center of the screen",
+            "default": false,
+            "tierLock": 0,
+            "value": false
+          },
+          {
+            "name": "Prio Center People",
+            "description": "Prioritize people who are closest to the center of the screen",
+            "default": true,
+            "tierLock": 0,
+            "value": false
+          },
+          {
+            "name": "Quit Key",
+            "description": "The key that quits the aimbot",
+            "default": "Q",
+            "tierLock": 0,
+            "type": "str",
+            "value": ""
+          },
+          {
+            "name": "Activation Key",
+            "description": "The key that activates the aimbot",
+            "default": "CapsLock",
+            "tierLock": 0,
+            "type": "str",
+            "value": ""
+          },
+          {
+            "name": "Hardware Selection (Faster ONLY)",
+            "description": "Choose the ONNX model to use",
+            "default": "2",
+            "tierLock": 0,
+            "filePath": "",
+            "filter": "",
+            "options": [
+              "0",
+              "1",
+              "2"
+            ],
+            "value": ""
+          },
+          {
+            "name": "Headshot Mode",
+            "description": "Prioritize headshots",
+            "default": true,
+            "tierLock": 0,
+            "value": true
+          },
+          {
+            "name": "Headshot Distance Modifier",
+            "description": "The distance modifier for headshots",
+            "default": 0.38,
+            "tierLock": 0,
+            "type": "int",
+            "min": 0.1,
+            "max": 1,
+            "step": 0.1,
+            "value": 0
+          },
+          {
+            "name": "Auto Fire",
+            "description": "Automatically fire when a target is detected",
+            "default": false,
+            "tierLock": 0,
+            "value": true
+          },
+          {
+            "name": "Auto Fire Activation Distance",
+            "description": "The distance at which the aimbot will automatically fire",
+            "default": 50,
+            "tierLock": 0,
+            "type": "int",
+            "min": 10,
+            "max": 100,
+            "step": 10,
+            "value": 1210000
+          },
+          {
+            "name": "Toggleable Aimbot",
+            "description": "Change between toggleable and holdable aimbot",
+            "default": true,
+            "tierLock": 0,
+            "value": false
+          },
+          {
+            "name": "Game Title (Optional)",
+            "description": "The title of the game",
+            "default": "Change Me",
+            "tierLock": 0,
+            "value": ""
+          }
+        ]
+      }
+    ],
+    "version": 1
+  }
