@@ -29,6 +29,12 @@ visuals = False
 # Smarter selection of people
 centerOfScreen = True
 
+# Auto click settings - click when target is in center
+autoClickEnabled = True
+autoClickKey = "O"  # Key to toggle auto click (O key)
+autoClickThreshold = 20  # Distance threshold from center (pixels)
+autoClickDelay = 0.01  # Seconds between clicks (0.1 = 10 clicks/sec)
+
 # ONNX ONLY - Choose 1 of the 3 below
 # 1 - CPU
 # 2 - AMD

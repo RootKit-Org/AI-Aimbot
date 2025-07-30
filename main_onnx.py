@@ -13,7 +13,7 @@ import torch
 # Could be do with
 # from config import *
 # But we are writing it out for clarity for new devs
-from config import aaMovementAmp, useMask, maskHeight, maskWidth, aaQuitKey, confidence, headshot_mode, cpsDisplay, visuals, onnxChoice, centerOfScreen
+from config import aaMovementAmp, useMask, maskHeight, maskWidth, aaQuitKey, confidence, headshot_mode, cpsDisplay, visuals, onnxChoice, centerOfScreen, autoClickEnabled, autoClickKey, autoClickDelay, autoClickThreshold
 import gameSelection
 
 def main():
@@ -44,7 +44,20 @@ def main():
 
     # Main loop Quit if Q is pressed
     last_mid_coord = None
+    last_click_time = 0
+    auto_click_active = False
+    
+    print(f"Auto Click Key: {autoClickKey} (toggle on/off)")
+    print(f"Auto Click Enabled: {autoClickEnabled}")
+    print(f"Auto Click Delay: {autoClickDelay}s ({1/autoClickDelay:.0f} clicks/sec)")
+    if autoClickEnabled:
+        print("Press", autoClickKey, "to toggle auto click")
+    
     while win32api.GetAsyncKeyState(ord(aaQuitKey)) == 0:
+        # Auto click toggle - unified implementation
+        if autoClickEnabled and win32api.GetAsyncKeyState(ord(autoClickKey)) & 1:
+            auto_click_active = not auto_click_active
+            print("Auto Click:", "ON" if auto_click_active else "OFF")
 
         # Getting Frame
         npImg = np.array(camera.get_latest_frame())
@@ -147,6 +160,33 @@ def main():
             if win32api.GetKeyState(0x14):
                 win32api.mouse_event(win32con.MOUSEEVENTF_MOVE, int(
                     mouseMove[0] * aaMovementAmp), int(mouseMove[1] * aaMovementAmp), 0, 0)
+            
+            # Auto click functionality - dual condition check with X-axis threshold
+            if autoClickEnabled and auto_click_active:
+                current_time = time.time()
+                if current_time - last_click_time >= autoClickDelay:
+                    # Condition 1: Check if center of screen is within the box
+                    box_left = xMid - (targets.iloc[0].width / 2)
+                    box_right = xMid + (targets.iloc[0].width / 2)
+                    box_top = yMid - (targets.iloc[0].height / 2)
+                    box_bottom = yMid + (targets.iloc[0].height / 2)
+                    
+                    center_in_box = (cWidth >= box_left and
+                                   cWidth <= box_right and
+                                   cHeight >= box_top and
+                                   cHeight <= box_bottom)
+                    
+                    # Condition 2: Check X-axis distance only from center of box to center of screen
+                    x_distance = abs(xMid - cWidth)
+                    is_within_threshold = x_distance <= autoClickThreshold
+                    
+                    # Both conditions must be met
+                    if center_in_box and is_within_threshold:
+                        win32api.mouse_event(win32con.MOUSEEVENTF_LEFTDOWN, 0, 0, 0, 0)
+                        time.sleep(0.01)
+                        win32api.mouse_event(win32con.MOUSEEVENTF_LEFTUP, 0, 0, 0, 0)
+                        last_click_time = current_time
+            
             last_mid_coord = [xMid, yMid]
 
         else:
