@@ -1,4 +1,19 @@
 import onnxruntime as ort
+
+# === 增强功能导入 (可选) ===
+try:
+    from mouse_driver import move_mouse_relative, is_driver_available
+    DRIVER_AVAILABLE = True
+except ImportError:
+    DRIVER_AVAILABLE = False
+    print("驱动级鼠标控制不可用，将使用系统级控制")
+
+try:
+    from advanced_aiming import get_advanced_aiming_movement
+    ADVANCED_AIMING_AVAILABLE = True
+except ImportError:
+    ADVANCED_AIMING_AVAILABLE = False
+
 import numpy as np
 import gc
 import numpy as np
@@ -13,7 +28,7 @@ import torch
 # Could be do with
 # from config import *
 # But we are writing it out for clarity for new devs
-from config import aaMovementAmp, useMask, maskHeight, maskWidth, aaQuitKey, confidence, headshot_mode, cpsDisplay, visuals, onnxChoice, centerOfScreen
+from config import aaMovementAmp, useMask, maskHeight, maskWidth, aaQuitKey, confidence, headshot_mode, cpsDisplay, visuals, onnxChoice, centerOfScreen, useDriverMouse, fallbackToSystemMouse
 import gameSelection
 
 def main():
@@ -105,8 +120,10 @@ def main():
                     s += f"{n} {int(c)}, "  # add to string
 
                 for *xyxy, conf, cls in reversed(det):
-                    targets.append((xyxy2xywh(torch.tensor(xyxy).view(
-                        1, 4)) / gn).view(-1).tolist() + [float(conf)])  # normalized xywh
+                    # 修复tensor view调用
+                    tensor_xyxy = torch.tensor(xyxy).reshape(1, 4)
+                    normalized_coords = (xyxy2xywh(tensor_xyxy) / gn).reshape(-1).tolist()
+                    targets.append(normalized_coords + [float(conf)])  # normalized xywh
 
         targets = pd.DataFrame(
             targets, columns=['current_mid_x', 'current_mid_y', 'width', "height", "confidence"])
@@ -143,10 +160,21 @@ def main():
 
             mouseMove = [xMid - cWidth, (yMid - headshot_offset) - cHeight]
 
-            # Moving the mouse
-            if win32api.GetKeyState(0x14):
-                win32api.mouse_event(win32con.MOUSEEVENTF_MOVE, int(
-                    mouseMove[0] * aaMovementAmp), int(mouseMove[1] * aaMovementAmp), 0, 0)
+            # Moving the mouse - 修复CapsLock检测并集成驱动级控制
+            # 正确检测CapsLock锁定状态：检测切换位而不是按下位
+            if win32api.GetKeyState(win32con.VK_CAPITAL) & 0x0001:
+                move_x = int(mouseMove[0] * aaMovementAmp)
+                move_y = int(mouseMove[1] * aaMovementAmp)
+                
+                # 使用驱动级鼠标控制（如果可用）
+                if DRIVER_AVAILABLE and useDriverMouse and is_driver_available():
+                    success = move_mouse_relative(move_x, move_y)
+                    if not success and fallbackToSystemMouse:
+                        # 驱动失败，回退到系统级控制
+                        win32api.mouse_event(win32con.MOUSEEVENTF_MOVE, move_x, move_y, 0, 0)
+                else:
+                    # 使用系统级控制
+                    win32api.mouse_event(win32con.MOUSEEVENTF_MOVE, move_x, move_y, 0, 0)
             last_mid_coord = [xMid, yMid]
 
         else:

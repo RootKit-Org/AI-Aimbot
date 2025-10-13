@@ -34,3 +34,18 @@ centerOfScreen = True
 # 2 - AMD
 # 3 - NVIDIA
 onnxChoice = 1
+# ========================================  
+# Enhanced Features by yin1895
+# ========================================
+
+# ========== Driver Mouse Configuration ==========
+useDriverMouse = True          # Use driver-level control (requires Logitech GHUB/LGS)
+fallbackToSystemMouse = True    # Fallback to system-level control when driver fails
+
+# ========== Advanced Aiming Configuration ==========  
+enableAdvancedAiming = False    # Enable advanced aiming system
+enableSmoothMovement = True     # Enable smooth movement
+smoothingFactor = 0.6           # Smoothing factor (0.1-0.9)
+movementThreshold = 2           # Movement threshold (pixels)
+enablePredictiveAim = False     # Enable predictive aiming
+predictionStrength = 0.6        # Prediction strength
